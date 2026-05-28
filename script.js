@@ -1,6 +1,6 @@
 const button = document.getElementById("playButton");
 const message = document.getElementById("message");
 
-button.addEventListener("click", () => {
-  message.textContent = "ゲームスタート！！！！！";
-});
+function startGame() {
+  window.location.href = "game.html";
+}
