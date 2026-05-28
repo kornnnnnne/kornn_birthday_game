@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+
+  background: #111;
+  color: white;
+
+  font-family: sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+#game {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+button {
+  margin-top: 20px;
+
+  padding: 15px 30px;
+
+  font-size: 1.2rem;
+
+  border: none;
+  border-radius: 12px;
+
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
