@@ -2,7 +2,7 @@ const button = document.getElementById("playButton");
 const message = document.getElementById("message");
 
 button.addEventListener("click", () => {
-  message.textContent = "ゲームスタート！";
+  message.textContent = "ゲームスタート！！！！！";
 });
 
 const playerName = prompt("名前を入力");
