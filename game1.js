@@ -39,7 +39,7 @@ function resetCornTimer() {
 // ゲーム開始処理
 function startGame() {
   score = 0;
-  timeLeft = 30;
+  timeLeft = 10;
   isPlaying = true;
 
   scoreElement.textContent = score;
