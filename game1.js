@@ -83,5 +83,8 @@ cornElement.addEventListener('click', () => {
   resetCornTimer();
 });
 
-// スタートボタンを押したとき
-startBtn.addEventListener('click', startGame);
+// ★★★ ここを追加しました ★★★
+// スタートボタンを押したときに startGame 関数を実行する設定
+if (startBtn) {
+  startBtn.addEventListener('click', startGame);
+}
