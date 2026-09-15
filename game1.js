@@ -84,7 +84,6 @@ function endGame() {
 function saveScore(name, score) {
   fetch(GAS_URL, {
     method: 'POST',
-    mode: 'no-cors', // CORSエラーを回避するための設定
     headers: {
       'Content-Type': 'text/plain',
     },
