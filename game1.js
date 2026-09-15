@@ -86,7 +86,7 @@ function saveScore(name, score) {
     method: 'POST',
     mode: 'no-cors', // CORSエラーを回避するための設定
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain',
     },
     body: JSON.stringify({
       name: name,
