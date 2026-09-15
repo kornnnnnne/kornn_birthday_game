@@ -10,7 +10,7 @@ const startBtn = document.getElementById('start-btn');
 const cornElement = document.getElementById('corn');
 const gameArea = document.getElementById('game-area');
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyj6pf-HYAmFZXOzWwk3oCMfO1bJhrBLf3S6TQTudbUKHQBcsOHPojEEvNFSXYOFPIbaw/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyyxie90uk3Xtyp427FEkIyTJZRFmM7zR2KYdmvnC7n7nXuzSabLExvFxzrnizfybDB3Q/exec";
 
 // とうもろこしをランダム位置に移動
 function moveCorn() {
@@ -88,6 +88,7 @@ function saveScore(name, score) {
       'Content-Type': 'text/plain',
     },
     body: JSON.stringify({
+      action: "saveScore",
       name: name,
       score: score
     })
