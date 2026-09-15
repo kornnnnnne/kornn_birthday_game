@@ -10,7 +10,7 @@ const startBtn = document.getElementById('start-btn');
 const cornElement = document.getElementById('corn');
 const gameArea = document.getElementById('game-area');
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzRz-B_uW6_rkS9m8x8U8imSX7VTGzkD4XpHCqmVDU7z-odvHpHH1IgoFWlIFpTfn6Q_A/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyj6pf-HYAmFZXOzWwk3oCMfO1bJhrBLf3S6TQTudbUKHQBcsOHPojEEvNFSXYOFPIbaw/exec";
 
 // とうもろこしをランダム位置に移動
 function moveCorn() {
