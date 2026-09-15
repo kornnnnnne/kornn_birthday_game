@@ -10,6 +10,8 @@ const startBtn = document.getElementById('start-btn');
 const cornElement = document.getElementById('corn');
 const gameArea = document.getElementById('game-area');
 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwmtKol1xCbbYk3U15M095yOp73-d3zBXZr46raSP3mdX7nJz3NBq_CddYJKam4K3PNgw/exec";
+
 // とうもろこしをランダム位置に移動
 function moveCorn() {
   if (!isPlaying) return;
@@ -69,7 +71,34 @@ function endGame() {
   startBtn.style.display = 'inline-block'; // スタートボタンを再表示
   startBtn.textContent = 'もう一度あそぶ';
 
+  // プレイヤー名を取得
+  const playerName = document.getElementById('player-name').value || "ゲスト";
+
   alert(`ゲーム終了！\nあなたのスコアは ${score} 点でした！`);
+
+  // スプレッドシートへ送信
+  saveScore(playerName, score);
+}
+
+// スプレッドシートにデータを送信する関数
+function saveScore(name, score) {
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors', // CORSエラーを回避するための設定
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: name,
+      score: score
+    })
+  })
+  .then(() => {
+    console.log("スコアを送信しました！");
+  })
+  .catch((error) => {
+    console.error("送信エラー:", error);
+  });
 }
 
 // とうもろこしをタップしたとき
