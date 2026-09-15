@@ -10,7 +10,7 @@ const startBtn = document.getElementById('start-btn');
 const cornElement = document.getElementById('corn');
 const gameArea = document.getElementById('game-area');
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwmtKol1xCbbYk3U15M095yOp73-d3zBXZr46raSP3mdX7nJz3NBq_CddYJKam4K3PNgw";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzsnixc4_NEdPYP78QN5D8m2a5bTsbcV1IWVkVUk-GvaVgbTB3MAnuniS-9PhHatr_u6Q/exec";
 
 // とうもろこしをランダム位置に移動
 function moveCorn() {
@@ -74,10 +74,10 @@ function endGame() {
   // プレイヤー名を取得
   const playerName = document.getElementById('player-name').value || "ゲスト";
 
-  alert(`ゲーム終了！\nあなたのスコアは ${score} 点でした！`);
-
-  // スプレッドシートへ送信
+    // スプレッドシートへ送信
   saveScore(playerName, score);
+
+  alert(`ゲーム終了！\nあなたのスコアは ${score} 点でした！`);
 }
 
 // スプレッドシートにデータを送信する関数
