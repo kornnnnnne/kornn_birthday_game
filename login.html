@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン - とうもろこしキャッチゲーム</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <div id="auth-card">
+    <h2>とうもろこしゲーム<br>ログイン / 新規登録</h2>
+    
+    <div class="input-group">
+      <input type="text" id="auth-name" placeholder="名前" autocomplete="off">
+    </div>
+    
+    <div class="input-group">
+      <input type="password" id="auth-pass" placeholder="パスワード">
+    </div>
+
+    <div class="button-group">
+      <button id="login-btn">ログイン</button>
+      <button id="register-btn" class="secondary-btn">新規登録</button>
+    </div>
+
+    <p id="auth-msg"></p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
