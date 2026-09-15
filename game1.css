@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+#game {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.score-board {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* ゲーム画面の枠（とうもろこしが動き回る範囲） */
+#game-area {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: #e2f0d9;
+  border: 3px solid #70ad47;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* とうもろこしのスタイル */
+.corn {
+  position: absolute;
+  font-size: 50px;
+  user-select: none; /* テキスト選択を防止 */
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+/* タップした瞬間のエフェクト */
+.corn:active {
+  transform: scale(1.2);
+}
