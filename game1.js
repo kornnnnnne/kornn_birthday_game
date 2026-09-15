@@ -1,5 +1,5 @@
 let score = 0;
-let timeLeft = 30; // 制限時間（30秒）
+let timeLeft = 10; // 制限時間（30秒）
 let gameInterval = null; // ゲームタイマー用
 let cornInterval = null; // とうもろこし移動タイマー用
 let isPlaying = false;
