@@ -11,13 +11,17 @@
   <div id="game">
     <h1>とうもろこし収穫ゲーム</h1>
     
-    <div class="score-board">
-      スコア: <span id="score">0</span>
+    <div class="status-board">
+      <span>スコア: <span id="score">0</span></span> | 
+      <span>残り時間: <span id="timer">30</span>秒</span>
     </div>
+
+    <!-- スタートボタン -->
+    <button id="start-btn">ゲームスタート！</button>
 
     <!-- とうもろこしが出現するエリア -->
     <div id="game-area">
-      <div id="corn" class="corn">🌽</div>
+      <div id="corn" class="corn" style="display: none;">🌽</div>
     </div>
   </div>
 
