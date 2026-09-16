@@ -11,14 +11,15 @@
   <div id="game">
     <h1>とうもろこし収穫ゲーム</h1>
     
+    <!-- プレイヤー名表示 & ログアウトボタン -->
+    <div style="margin-bottom: 10px;">
+      <span>プレイヤー: <strong id="player-display">---</strong></span>
+      <button id="logout-btn" style="font-size: 12px; padding: 2px 8px; margin-left: 10px;">ログアウト</button>
+    </div>
+
     <div class="status-board">
       <span>スコア: <span id="score">0</span></span> | 
-      <span>残り時間: <span id="timer">10</span>秒</span>
-    </div>
-    <!-- status-board の下あたりに追加 -->
-    <div style="margin-bottom: 10px;">
-      <label for="player-name">プレイヤー名: </label>
-      <input type="text" id="player-name" value="ゲスト" placeholder="名前を入力">
+      <span>残り時間: <span id="timer">30</span>秒</span>
     </div>
 
     <!-- スタートボタン -->
