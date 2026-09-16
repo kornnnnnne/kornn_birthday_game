@@ -7,7 +7,7 @@ if (!loggedInUser) {
   window.location.href = 'login.html';
 }
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyKZT7bjd4lBbX1WTcLSuWMMgyPvDnnCmsSY_jv1o6f8k0tx486GadPcwyM4C1IbQfcGQ/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzoRzlt3s0jk2eupKk35lmtnz6sk7w4So1gwPB6b6wddKPQbba52qRw9wYgE40sQpZxXQ/exec";
 
 // 画面要素の設定
 const playerDisplay = document.getElementById('player-display');
