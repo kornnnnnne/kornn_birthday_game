@@ -67,6 +67,38 @@ body {
   overflow: hidden;
 }
 
+/* 結果＆ランキングボードの装飾 */
+#result-board {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fffde7;
+  border: 2px solid #fbc02d;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#result-board h2 {
+  margin-top: 0;
+  color: #f57f17;
+}
+
+.score-summary {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+#ranking-list {
+  display: inline-block;
+  text-align: left;
+  padding-left: 25px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+#ranking-list li {
+  margin-bottom: 4px;
+}
+
 .corn {
   position: absolute;
   font-size: 50px;
