@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyyxie90uk3Xtyp427FEkIyTJZRFmM7zR2KYdmvnC7n7nXuzSabLExvFxzrnizfybDB3Q/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyKZT7bjd4lBbX1WTcLSuWMMgyPvDnnCmsSY_jv1o6f8k0tx486GadPcwyM4C1IbQfcGQ/exec";
 
 const nameInput = document.getElementById('auth-name');
 const passInput = document.getElementById('auth-pass');
