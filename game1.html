@@ -33,6 +33,18 @@
     <div id="game-area">
       <div id="corn" class="corn" style="display: none;">🌽</div>
     </div>
+
+    <!-- ★ 結果＆ランキング表示エリア（初期状態は非表示） -->
+    <div id="result-board" style="display: none;">
+      <h2>🎉 ゲーム終了！ 🎉</h2>
+      <p class="score-summary">今回のスコア: <strong id="current-score-display">0</strong> 点</p>
+      <p class="score-summary">あなたのハイスコア: <strong id="my-highscore-display">0</strong> 点</p>
+      
+      <h3>🏆 ランキング TOP 5 🏆</h3>
+      <ol id="ranking-list">
+        <!-- JSでここに上位5人が追加されます -->
+      </ol>
+    </div>
   </div>
 
   <script src="game1.js"></script>
