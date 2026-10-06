@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4択クイズゲーム</title>
+  <link rel="stylesheet" href="quiz2.css">
+</head>
+<body>
+
+  <!-- 左上コントロール -->
+  <div id="top-left-controls">
+    <button id="back-menu-btn">メニューへ</button>
+  </div>
+
+  <div id="quiz-container">
+    <h1>全5問！4択クイズ</h1>
+    <p>プレイヤー: <strong id="player-display">---</strong></p>
+
+    <!-- クイズプレイエリア -->
+    <div id="quiz-screen">
+      <div class="quiz-header">
+        <span id="question-number">第 1 問</span>
+        <span id="score-display">現在のスコア: 0点</span>
+      </div>
+
+      <div id="question-text" class="question-box">問題文がここに入ります</div>
+
+      <div id="choices-container" class="choices-grid">
+        <button class="choice-btn" data-index="0">選択肢 1</button>
+        <button class="choice-btn" data-index="1">選択肢 2</button>
+        <button class="choice-btn" data-index="2">選択肢 3</button>
+        <button class="choice-btn" data-index="3">選択肢 4</button>
+      </div>
+
+      <div id="feedback-msg"></div>
+    </div>
+
+    <!-- 結果発表エリア（初期非表示） -->
+    <div id="result-screen" style="display: none;">
+      <h2>🎉 クイズ終了！ 🎉</h2>
+      <p class="result-score">あなたの正解数: <strong id="correct-count">0</strong> / 5 問</p>
+      <p class="result-score">獲得スコア: <strong id="final-score">0</strong> 点</p>
+      
+      <button id="retry-btn">もう一度挑戦する</button>
+      <button id="result-back-menu-btn">メニューへ戻る</button>
+    </div>
+  </div>
+
+  <script src="quiz2.js"></script>
+</body>
+</html>
