@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>漢字読み方クイズ</title>
+  <link rel="stylesheet" href="css/KanjiQuiz.css">
+</head>
+<body>
+
+  <div class="game-card">
+    <h1>📝 漢字読み方クイズ</h1>
+
+    <!-- 進行状況・スコア -->
+    <div class="status-panel">
+      <div class="status-item">
+        <span class="label">問題</span>
+        <span id="question-number" class="value">1 / 5</span>
+      </div>
+      <div class="status-item">
+        <span class="label">残り時間</span>
+        <span id="time-display" class="value">10</span> 秒
+      </div>
+      <div class="status-item">
+        <span class="label">正解数</span>
+        <span id="score-display" class="value">0</span>
+      </div>
+    </div>
+
+    <!-- 漢字表示エリア -->
+    <div class="kanji-container">
+      <div id="kanji-display" class="kanji-text">？</div>
+      <div id="hint-display" class="hint-text">「スタート」を押して開始！</div>
+    </div>
+
+    <!-- 解答入力エリア -->
+    <form id="answer-form" class="input-form">
+      <input 
+        type="text" 
+        id="answer-input" 
+        placeholder="ひらがなで入力" 
+        autocomplete="off" 
+        disabled
+      >
+      <button type="submit" id="submit-btn" disabled>回答</button>
+    </form>
+
+    <!-- 結果メッセージ -->
+    <p id="result-message" class="result-message"></p>
+
+    <!-- スタートボタン -->
+    <div class="control-panel">
+      <button id="start-btn" class="ctrl-btn start">ゲームスタート</button>
+    </div>
+  </div>
+
+  <script src="js/KanjiQuiz.js"></script>
+</body>
+</html>
