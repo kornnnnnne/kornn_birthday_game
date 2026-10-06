@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超連打チャレンジ！ - Rapid</title>
+  <link rel="stylesheet" href="Rapid.css">
+</head>
+<body>
+
+  <div class="game-card">
+    <h1>⚡ 超連打チャレンジ ⚡</h1>
+    <p class="description">10秒間でボタンを何回連打できるか挑戦しよう！</p>
+
+    <div class="status-panel">
+      <div class="status-item">
+        <span class="label">残り時間</span>
+        <span id="time-display" class="value">10.0</span> 秒
+      </div>
+      <div class="status-item">
+        <span class="label">連打数</span>
+        <span id="score-display" class="value">0</span> 回
+      </div>
+    </div>
+
+    <!-- タップ/クリック用巨大ボタン -->
+    <button id="tap-btn" class="tap-btn" disabled>
+      スタートを押してね！
+    </button>
+
+    <!-- コントロールボタン -->
+    <div class="control-panel">
+      <button id="start-btn" class="ctrl-btn start">ゲームスタート</button>
+      <button id="back-btn" class="ctrl-btn back">メニューへ戻る</button>
+    </div>
+
+    <!-- 結果メッセージ -->
+    <p id="result-message" class="result-message"></p>
+  </div>
+
+  <script src="Rapid.js"></script>
+</body>
+</html>
