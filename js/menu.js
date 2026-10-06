@@ -21,8 +21,8 @@ document.getElementById('to-quiz2-btn').addEventListener('click', () => {
   window.location.href = 'quiz2.html';
 });
 
-document.getElementById('to-quiz3-btn').addEventListener('click', () => {
-  window.location.href = 'quiz3.html';
+document.getElementById('to-KanjiQuiz-btn').addEventListener('click', () => {
+  window.location.href = 'KanjiQuiz.html';
 });
 
 document.getElementById('to-Rapid-btn').addEventListener('click', () => {
