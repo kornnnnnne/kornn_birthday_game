@@ -1,0 +1,140 @@
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.game-card {
+  background: white;
+  width: 90%;
+  max-width: 450px;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  font-size: 22px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.status-panel {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.status-item .label {
+  display: block;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.status-item .value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* 漢字表示部分 */
+.kanji-container {
+  background: #f1f2f6;
+  padding: 30px 10px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.kanji-text {
+  font-size: 64px;
+  font-weight: bold;
+  color: #2d3436;
+  line-height: 1.2;
+}
+
+.hint-text {
+  font-size: 14px;
+  color: #636e72;
+  margin-top: 10px;
+}
+
+/* 入力フォーム */
+.input-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+#answer-input {
+  flex: 1;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+}
+
+#answer-input:focus {
+  border-color: #0984e3;
+}
+
+#submit-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#submit-btn:disabled {
+  background-color: #b2bec3;
+  cursor: not-allowed;
+}
+
+/* 結果表示 */
+.result-message {
+  font-size: 18px;
+  font-weight: bold;
+  min-height: 27px;
+  margin-bottom: 15px;
+}
+
+.result-message.correct {
+  color: #2ed573;
+}
+
+.result-message.wrong {
+  color: #ff4757;
+}
+
+/* 操作ボタン */
+.ctrl-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ctrl-btn.start {
+  background-color: #00b894;
+  color: white;
+}
+
+.ctrl-btn.start:hover {
+  background-color: #00a181;
+}
