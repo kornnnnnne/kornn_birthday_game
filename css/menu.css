@@ -75,3 +75,12 @@ h1 {
   font-size: 12px;
   color: #636e72;
 }
+
+/* 画面の【右上】に完全固定 */
+#top-right-controls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  text-align: right;
+}
