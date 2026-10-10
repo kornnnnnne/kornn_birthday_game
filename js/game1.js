@@ -7,8 +7,6 @@ if (!loggedInUser) {
   window.location.href = 'login.html';
 }
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyY3NTI2_xiA4-7G1W5SFpRxr77GfUnVWsI0_cruB9CQLbKGdCYXAU_QzJ5iqdMP5u1EA/exec";
-
 // 画面要素の設定
 const playerDisplay = document.getElementById('player-display');
 const logoutBtn = document.getElementById('logout-btn');
