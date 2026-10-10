@@ -70,6 +70,7 @@ loginBtn.addEventListener('click', () => {
     if (data.status === "success") {
       // ログイン成功情報を保存してゲーム画面へ移動
       localStorage.setItem('loggedInUser', name);
+      localStorage.setItem('userCoins', data.coins);
       window.location.href = 'menu.html';
     } else {
       showMessage(data.message, "red");
