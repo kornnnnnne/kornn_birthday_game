@@ -140,6 +140,33 @@ function startGame() {
   }, 1000);
 }
 
+// 例：ショップで 150コインのアイテムを購入する場合
+function buyItem(itemName, price) {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  if (!loggedInUser) return;
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: "updateCoins",
+      name: loggedInUser,
+      amount: -price // マイナスを指定すると所持金から引かれます
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert(`${itemName}を購入しました！ 残りコイン: ${data.totalCoins}`);
+    } else {
+      alert(data.message); // 「コインが足りません」などのエラーを表示
+    }
+  })
+  .catch(() => {
+    alert("通信エラーが発生しました");
+  });
+}
+
 cornElement.addEventListener('click', () => {
   if (!isPlaying) return;
 
