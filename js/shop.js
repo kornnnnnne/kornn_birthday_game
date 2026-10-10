@@ -43,7 +43,7 @@ function fetchPlayerData() {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
-      action: "getPlayerData", // 後ほどGAS側に追加する処理
+      action: "getPlayerData",
       name: loggedInUser
     })
   })
@@ -53,9 +53,7 @@ function fetchPlayerData() {
       playerCoins = data.coins;
       document.getElementById('player-coins').textContent = playerCoins;
     } else {
-      // コイン情報がまだ取れない場合のフォールバック（デバッグ用）
-      playerCoins = 500; // テスト用に持たせる場合など
-      document.getElementById('player-coins').textContent = playerCoins;
+      console.error(data.message);
     }
   })
   .catch(err => {
@@ -67,6 +65,7 @@ function fetchPlayerData() {
 function buyItem(itemId, price) {
   const msgBox = document.getElementById('message-box');
   msgBox.textContent = "";
+  msgBox.style.color = "#e74c3c"; // エラー時は赤色
 
   if (playerCoins < price) {
     msgBox.textContent = "コインが足りません！";
@@ -80,8 +79,7 @@ function buyItem(itemId, price) {
     body: JSON.stringify({
       action: "buyItem",
       name: loggedInUser,
-      itemId: itemId,
-      price: price
+      itemId: itemId
     })
   })
   .then(res => res.json())
@@ -89,14 +87,17 @@ function buyItem(itemId, price) {
     if (data.status === "success") {
       playerCoins = data.newCoins;
       document.getElementById('player-coins').textContent = playerCoins;
-      alert(data.message);
+      
+      // 成功メッセージを緑色で表示
+      msgBox.style.color = "#2ecc71";
+      msgBox.textContent = data.message;
     } else {
       msgBox.textContent = data.message;
     }
   })
   .catch(err => {
     console.error("購入エラー:", err);
-    alert("通信に失敗しました");
+    msgBox.textContent = "通信に失敗しました";
   });
 }
 
