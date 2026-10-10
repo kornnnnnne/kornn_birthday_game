@@ -10,6 +10,7 @@ if (!loggedInUser) {
 // 画面要素の設定
 const playerDisplay = document.getElementById('player-display');
 const logoutBtn = document.getElementById('logout-btn');
+const coinDisplay = document.getElementById('coin-display');
 
 if (playerDisplay) {
   playerDisplay.textContent = loggedInUser;
