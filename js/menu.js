@@ -41,6 +41,10 @@ document.getElementById('to-shop-btn').addEventListener('click', () => {
   // 将来的に: window.location.href = 'shop.html';
 });
 
+document.getElementById('to-status-btn').addEventListener('click', () => {
+  window.location.href = 'status.html';
+});
+
 // ログアウト処理
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('loggedInUser');
