@@ -99,6 +99,10 @@ function saveScore(name, score) {
       // 自分のハイスコアを更新
       myHighScoreDisplay.textContent = data.myHighScore;
 
+      if (data.earnedCoins > 0) {
+        alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
+      }
+
       // ランキングリストの生成
       rankingList.innerHTML = "";
       data.top5.forEach((item) => {
