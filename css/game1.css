@@ -29,14 +29,6 @@ body {
   font-weight: bold;
 }
 
-/* 左上に固定配置するスタイル */
-#top-left-controls {
-  position: absolute;
-  top: 15px;  /* 画面上部からの余白 */
-  left: 15px; /* 画面左側からの余白 */
-  z-index: 1000; /* 他の要素より前面に表示 */
-}
-
 /* ログアウトボタン見た目の調整 */
 #logout-btn {
   padding: 6px 12px;
