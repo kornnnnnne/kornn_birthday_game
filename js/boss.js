@@ -77,6 +77,9 @@ function fetchPlayerStatus() {
   });
 }
 
+// ページ読み込み時に実行
+fetchPlayerStatus();
+
 // プレイヤーの攻撃ターン
 function playerAttack() {
   // ボタンを一時的に無効化（連打防止）
@@ -152,5 +155,3 @@ function escapeBattle() {
   }
 }
 
-// ページ読み込み時に実行
-fetchPlayerStatus();
