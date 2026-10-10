@@ -8,6 +8,7 @@ if (!loggedInUser) {
 // ==========================================
 // ★【追加】ページを開いたときに現在のコインを取得して表示する
 // ==========================================
+const coinDisplay = document.getElementById('coin-display');
 function fetchUserCoins() {
   fetch(GAS_URL, {
     method: 'POST',
