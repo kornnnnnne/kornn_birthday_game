@@ -1,14 +1,31 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 60px 10px 20px 10px; /* ★上部に60pxの隙間をあけて、ボタンと文字が被らないようにする */
   font-family: sans-serif;
   text-align: center;
   background-color: #f0f8ff;
+  position: relative;
+}
+
+/* 画面の【左上】に完全固定 */
+#top-left-controls {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 10;
+}
+
+/* 画面の【右上】に完全固定 */
+#top-right-controls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
 }
 
 #game {
   max-width: 500px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 10px;
 }
 
@@ -33,6 +50,34 @@ body {
   background-color: #e6ad00;
 }
 
+/* ログアウトボタン */
+#logout-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* 所持金バッジ */
+.coin-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ffeeba;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
 #game-area {
   position: relative;
   width: 100%;
@@ -43,7 +88,6 @@ body {
   overflow: hidden;
 }
 
-/* 結果＆ランキングボードの装飾 */
 #result-board {
   margin-top: 20px;
   padding: 20px;
@@ -81,48 +125,6 @@ body {
   user-select: none;
   cursor: pointer;
   transition: transform 0.1s ease;
-}
-
-/* 画面の左上に固定（ログアウトボタン） */
-#top-left-controls {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-/* 画面の右上に固定（所持金バッジ） */
-#top-right-controls {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-/* 所持金バッジのデザイン */
-.coin-badge {
-  background-color: #fff3cd;
-  color: #856404;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 14px;
-  border: 1px solid #ffeeba;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* ログアウトボタン見た目の調整 */
-#logout-btn {
-  padding: 8px 14px;
-  font-size: 13px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#logout-btn:hover {
-  background-color: #d32f2f;
 }
 
 .corn:active {
