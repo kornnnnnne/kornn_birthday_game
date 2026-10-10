@@ -6,9 +6,7 @@ if (!loggedInUser) {
 }
 
 const savedCoins = localStorage.getItem('userCoins');
-if (coinDisplay && savedCoins !== null) {
-  coinDisplay.textContent = savedCoins;
-}
+document.getElementById('coin-display').textContent = savedCoins;
 
 // プレイヤー名表示
 document.getElementById('player-display').textContent = loggedInUser;
