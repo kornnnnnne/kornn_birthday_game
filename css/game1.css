@@ -107,6 +107,28 @@ body {
   transition: transform 0.1s ease;
 }
 
+/* 画面の右上に固定表示するエリア */
+#top-left-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 所持金バッジのデザイン */
+.coin-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ffeeba;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
 .corn:active {
   transform: scale(1.2);
 }
