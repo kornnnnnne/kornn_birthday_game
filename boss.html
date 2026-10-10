@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ボスバトル</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+    }
+    .battle-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .status-box {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      background: #333;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .hp-gauge-container {
+      background: #444;
+      border-radius: 5px;
+      height: 20px;
+      width: 100%;
+      margin-top: 5px;
+      overflow: hidden;
+      border: 1px solid #555;
+    }
+    .hp-gauge {
+      background: #e74c3c;
+      height: 100%;
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+    .player-hp-gauge {
+      background: #2ecc71;
+    }
+    #log-box {
+      background: #111;
+      height: 120px;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: left;
+      overflow-y: auto;
+      font-size: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #444;
+    }
+    .command-box button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #e67e22;
+      color: white;
+      font-weight: bold;
+    }
+    .command-box button:hover {
+      background: #d35400;
+    }
+    .command-box button:disabled {
+      background: #7f8c8d;
+      cursor: not-allowed;
+    }
+    .back-btn {
+      margin-top: 20px;
+      background: #7f8c8d !important;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>⚔️ ボスバトル ⚔️</h1>
+  <p>プレイヤー: <strong id="player-name">---</strong></p>
+
+  <div class="battle-container">
+    <!-- ボス情報 -->
+    <div class="boss-info">
+      <h2 id="boss-name">コーン魔王</h2>
+      <p>HP: <span id="boss-current-hp">200</span> / <span id="boss-max-hp">200</span></p>
+      <div class="hp-gauge-container">
+        <div id="boss-hp-gauge" class="hp-gauge"></div>
+      </div>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
+
+    <!-- プレイヤー情報 -->
+    <div class="player-info">
+      <p>あなたのHP: <span id="player-current-hp">---</span> / <span id="player-max-hp">---</span></p>
+      <div class="hp-gauge-container">
+        <div id="player-hp-gauge" class="hp-gauge player-hp-gauge"></div>
+      </div>
+    </div>
+
+    <!-- 戦闘ログ -->
+    <div id="log-box">戦闘開始！コマンドを選んでください。</div>
+
+    <!-- コマンドボタン -->
+    <div class="command-box" id="command-box">
+      <button id="attack-btn" onclick="playerAttack()">たたかう</button>
+      <button id="escape-btn" onclick="escapeBattle()" class="back-btn">にげる</button>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="location.href='menu.html'" style="display:none;" id="to-menu-btn">メニューに戻る</button>
+
+  <!-- スクリプト読み込み -->
+  <script src="js/config.js"></script>
+  <script src="js/boss.js"></script>
+</body>
+</html>
