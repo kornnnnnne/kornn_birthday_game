@@ -97,8 +97,11 @@ function saveScore(name, score) {
   .then(res => res.json())
   .then(data => {
     if (data.status === "success") {
-      // 自分のハイスコアを更新
       myHighScoreDisplay.textContent = data.myHighScore;
+      // ★ 所持金の表示を更新！
+      if (coinDisplay && data.totalCoins !== undefined) {
+        coinDisplay.textContent = data.totalCoins;
+      }
 
       if (data.earnedCoins > 0) {
         alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
