@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ショップ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+    }
+    .shop-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .coin-box {
+      font-size: 18px;
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .item-card {
+      background: #333;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #444;
+    }
+    .item-info {
+      text-align: left;
+    }
+    .item-name {
+      font-weight: bold;
+      font-size: 16px;
+      color: #f1c40f;
+    }
+    .item-desc {
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 3px;
+    }
+    .buy-btn {
+      padding: 8px 15px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .buy-btn:hover {
+      background: #219653;
+    }
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #7f8c8d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .back-btn:hover {
+      background: #6c7a89;
+    }
+    #message-box {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #e74c3c;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 よろず屋ショップ</h1>
+  <p>プレイヤー: <strong id="player-name">---</strong></p>
+
+  <div class="shop-container">
+    <div class="coin-box">
+      所持金: 💰 <span id="player-coins">0</span> コイン
+    </div>
+
+    <!-- 商品一覧エリア -->
+    <div class="item-list" id="shop-item-list">
+      <!-- JavaScriptで自動的に商品カードが並びます -->
+    </div>
+
+    <div id="message-box"></div>
+  </div>
+
+  <button class="back-btn" onclick="location.href='menu.html'">メニューに戻る</button>
+
+  <!-- スクリプト読み込み -->
+  <script src="js/config.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
