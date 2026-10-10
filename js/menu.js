@@ -60,8 +60,7 @@ document.getElementById('to-slot-btn').addEventListener('click', () => {
 });
 
 document.getElementById('to-shop-btn').addEventListener('click', () => {
-  alert("ショップ機能は現在準備中です！");
-  // 将来的に: window.location.href = 'shop.html';
+  window.location.href = 'shop.html';
 });
 
 document.getElementById('to-status-btn').addEventListener('click', () => {
