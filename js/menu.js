@@ -68,6 +68,10 @@ document.getElementById('to-status-btn').addEventListener('click', () => {
   window.location.href = 'status.html';
 });
 
+document.getElementById('to-boss-btn').addEventListener('click', () => {
+  window.location.href = 'boss.html';
+});
+
 // ログアウト処理
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('loggedInUser');
