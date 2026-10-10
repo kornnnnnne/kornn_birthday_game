@@ -5,6 +5,9 @@ if (!loggedInUser) {
   window.location.href = 'index.html';
 }
 
+const savedCoins = localStorage.getItem('userCoins');
+document.getElementById('coin-display').textContent = savedCoins;
+
 // プレイヤー名表示
 document.getElementById('player-display').textContent = loggedInUser;
 
