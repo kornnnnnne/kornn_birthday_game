@@ -84,3 +84,16 @@ h1 {
   z-index: 10;
   text-align: right;
 }
+
+/* 所持金バッジ */
+.coin-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ffeeba;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: inline-block;
+}
