@@ -5,6 +5,32 @@ if (!loggedInUser) {
   window.location.href = 'index.html';
 }
 
+// ==========================================
+// ★【追加】ページを開いたときに現在のコインを取得して表示する
+// ==========================================
+function fetchUserCoins() {
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: "getCoins",
+      name: loggedInUser
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success" && coinDisplay) {
+      coinDisplay.textContent = data.totalCoins;
+    }
+  })
+  .catch(err => {
+    console.error("コイン情報の取得に失敗しました:", err);
+  });
+}
+
+// ページを開いたときに実行！
+fetchUserCoins();
+
 // プレイヤー名表示
 document.getElementById('player-display').textContent = loggedInUser;
 
