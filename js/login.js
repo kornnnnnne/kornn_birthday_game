@@ -1,5 +1,3 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyY3NTI2_xiA4-7G1W5SFpRxr77GfUnVWsI0_cruB9CQLbKGdCYXAU_QzJ5iqdMP5u1EA/exec";
-
 const nameInput = document.getElementById('auth-name');
 const passInput = document.getElementById('auth-pass');
 const loginBtn = document.getElementById('login-btn');
