@@ -14,6 +14,10 @@ const coinDisplay = document.getElementById('coin-display');
 
 if (playerDisplay) {
   playerDisplay.textContent = loggedInUser;
+    // ★ 所持金の表示を更新！
+  if (coinDisplay && data.totalCoins !== undefined) {
+    coinDisplay.textContent = data.totalCoins;
+  }
 }
 
 // ログアウト処理
