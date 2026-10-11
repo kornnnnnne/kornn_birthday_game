@@ -2,26 +2,131 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ステータス確認</title>
-  <link rel="stylesheet" href="css/status.css"> <!-- 共通のCSSがあれば -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ステータス・装備確認</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .status-list, .equip-section {
+      background: #333;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .equip-group {
+      margin-bottom: 15px;
+    }
+    .equip-group label {
+      display: block;
+      font-size: 14px;
+      color: #f1c40f;
+      margin-bottom: 5px;
+    }
+    .equip-group select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      background: #444;
+      color: white;
+      border: 1px solid #555;
+      font-size: 14px;
+    }
+    .action-btn {
+      padding: 8px 15px;
+      margin-top: 5px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .action-btn:hover {
+      background: #219653;
+    }
+    .back-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #7f8c8d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #message-box {
+      font-size: 14px;
+      color: #2ecc71;
+      min-height: 20px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>プレイヤー ステータス</h1>
-  <p>ログイン中: <span id="player-display"></span></p>
+  <h1>📊 ステータス & 装備</h1>
+  <p>プレイヤー: <strong id="player-display">---</strong></p>
 
-  <div class="status-card">
-    <div class="status-item"><span>❤️ HP:</span> <strong id="stat-hp">-</strong></div>
-    <div class="status-item"><span>✨ MP:</span> <strong id="stat-mp">-</strong></div>
-    <div class="status-item"><span>⚔️ 攻撃力:</span> <strong id="stat-attack">-</strong></div>
-    <div class="status-item"><span>🔮 魔法攻撃力:</span> <strong id="stat-magicAttack">-</strong></div>
-    <div class="status-item"><span>🛡️ 防御力:</span> <strong id="stat-defense">-</strong></div>
-    <div class="status-item"><span>🛡️✨ 魔法防御力:</span> <strong id="stat-magicDefense">-</strong></div>
+  <div class="container">
+    <!-- ステータス表示 -->
+    <div class="status-list">
+      <h3>ステータス</h3>
+      <div class="status-item"><span>HP:</span> <strong id="stat-hp">-</strong></div>
+      <div class="status-item"><span>MP:</span> <strong id="stat-mp">-</strong></div>
+      <div class="status-item"><span>攻撃力:</span> <strong id="stat-attack">-</strong></div>
+      <div class="status-item"><span>魔法攻撃力:</span> <strong id="stat-magicAttack">-</strong></div>
+      <div class="status-item"><span>防御力:</span> <strong id="stat-defense">-</strong></div>
+      <div class="status-item"><span>魔法防御力:</span> <strong id="stat-magicDefense">-</strong></div>
+    </div>
+
+    <!-- 装備変更セクション -->
+    <div class="equip-section">
+      <h3>装備変更</h3>
+      
+      <!-- 武器選択 -->
+      <div class="equip-group">
+        <label>武器 (現在: <span id="current-weapon">なし</span>)</label>
+        <select id="weapon-select">
+          <option value="なし">なし</option>
+        </select>
+        <button class="action-btn" onclick="changeEquipment('weapon')">武器を装備する</button>
+      </div>
+
+      <!-- 防具選択 -->
+      <div class="equip-group">
+        <label>防具 (現在: <span id="current-armor">なし</span>)</label>
+        <select id="armor-select">
+          <option value="なし">なし</option>
+        </select>
+        <button class="action-btn" onclick="changeEquipment('armor')">防具を装備する</button>
+      </div>
+    </div>
+
+    <div id="message-box"></div>
   </div>
 
   <button class="back-btn" onclick="location.href='menu.html'">メニューに戻る</button>
 
-  <!-- 設定ファイルと専用JS -->
   <script src="js/config.js"></script>
   <script src="js/status.js"></script>
 </body>
