@@ -110,6 +110,7 @@ function saveScore(name, score) {
   const resultBoard = document.getElementById('result-board');
   const myHighScoreDisplay = document.getElementById('my-highscore-display');
   const rankingList = document.getElementById('ranking-list');
+  const Coinamount = 0;
 
   // 通信中の表示
   myHighScoreDisplay.textContent = "読み込み中...";
@@ -133,6 +134,11 @@ function saveScore(name, score) {
       if (coinDisplay && data.totalCoins !== undefined) {
         coinDisplay.textContent = data.totalCoins;
       }
+
+      if(score > 10){
+        Coinamount = score * 2
+      }
+      addcoin = addCoinsToPlayer(Coinamount)
 
       if (data.earnedCoins > 0) {
         alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
@@ -177,6 +183,30 @@ function startGame() {
       endGame();
     }
   }, 1000);
+}
+
+// 例：ゲームクリア時などにコインを付与したいとき
+function addCoinsToPlayer(amount) {
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: "updateCoins", // すでに定義されている関数ルート
+      name: loggedInUser,
+      amount: amount         // プラスの数値を入れれば加算されます（例: 50）
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert(`${data.changeAmount} コインを手に入れた！ (所持金合計: ${data.totalCoins})`);
+    } else {
+      alert("エラー: " + data.message);
+    }
+  })
+  .catch(err => {
+    console.error("通信エラー:", err);
+  });
 }
 
 // 例：ショップで 150コインのアイテムを購入する場合
