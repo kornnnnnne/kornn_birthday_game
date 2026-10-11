@@ -179,30 +179,6 @@ function startGame() {
   }, 1000);
 }
 
-// 例：ゲームクリア時などにコインを付与したいとき
-function addCoinsToPlayer(amount) {
-  fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({
-      action: "updateCoins", // すでに定義されている関数ルート
-      name: loggedInUser,
-      amount: amount         // プラスの数値を入れれば加算されます（例: 50）
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.status === "success") {
-      alert(`${data.changeAmount} コインを手に入れた！ (所持金合計: ${data.totalCoins})`);
-    } else {
-      alert("エラー: " + data.message);
-    }
-  })
-  .catch(err => {
-    console.error("通信エラー:", err);
-  });
-}
-
 // 例：ショップで 150コインのアイテムを購入する場合
 function buyItem(itemName, price) {
   const loggedInUser = localStorage.getItem('loggedInUser');
