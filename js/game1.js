@@ -110,7 +110,6 @@ function saveScore(name, score) {
   const resultBoard = document.getElementById('result-board');
   const myHighScoreDisplay = document.getElementById('my-highscore-display');
   const rankingList = document.getElementById('ranking-list');
-  const Coinamount = 0;
 
   // 通信中の表示
   myHighScoreDisplay.textContent = "読み込み中...";
@@ -123,7 +122,8 @@ function saveScore(name, score) {
     body: JSON.stringify({
       action: "saveScore",
       name: name,
-      score: score
+      score: score,
+      gameType: "corn_catch"
     })
   })
   .then(res => res.json())
@@ -134,12 +134,6 @@ function saveScore(name, score) {
       if (coinDisplay && data.totalCoins !== undefined) {
         coinDisplay.textContent = data.totalCoins;
       }
-
-      if(score > 10){
-        Coinamount = int(score) * 2
-      }
-      addcoin = addCoinsToPlayer(Coinamount)
-
       if (data.earnedCoins > 0) {
         alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${addcoin} コイン）`);
       }
