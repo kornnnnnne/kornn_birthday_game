@@ -1,3 +1,10 @@
+// 1. ログインチェック（ファイルの最上部に追加！）
+const loggedInUser = localStorage.getItem('loggedInUser');
+if (!loggedInUser) {
+  alert("ログインが必要です");
+  window.location.href = 'index.html';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // 問題リスト（漢字、正解の読み方、ヒント）
   const quizList = [
