@@ -16,6 +16,11 @@ if (playerDisplay) {
   playerDisplay.textContent = loggedInUser;
 }
 
+// メニューに戻るボタン
+document.getElementById('back-menu-btn').addEventListener('click', () => {
+  window.location.href = 'menu.html';
+});
+
 // ==========================================
 // ★【追加】ページを開いたときに現在のコインを取得して表示する
 // ==========================================
