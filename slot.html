@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コーンスロット - Slot</title>
+  <link rel="stylesheet" href="css/Rapid.css"> <!-- 既存のCSSを流用、または共通CSS -->
+</head>
+<body>
+
+  <!-- 左上コントロール & 所持コイン表示 -->
+  <div id="top-left-controls" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+    <button id="back-menu-btn">メニューへ</button>
+    <div style="color: #f1c40f; font-weight: bold; font-size: 16px;">
+      💰 所持コイン: <span id="coin-display">0</span>
+    </div>
+  </div>
+
+  <div class="game-card" style="text-align: center;">
+    <h1>🎰 コーンスロット 🎰</h1>
+    <p class="description">1回 10コインで挑戦！絵柄を揃えてコインを稼ごう！</p>
+
+    <!-- スロットの出目ボード -->
+    <div class="slot-container" style="font-size: 50px; margin: 30px auto; background: #222; padding: 20px; border-radius: 12px; display: inline-flex; gap: 15px; border: 3px solid #f1c40f;">
+      <span id="reel1">🌽</span>
+      <span id="reel2">🔔</span>
+      <span id="reel3">7️⃣</span>
+    </div>
+
+    <!-- 結果メッセージ -->
+    <p id="slot-message" style="font-weight: bold; font-size: 18px; min-height: 28px; color: #fff; margin-bottom: 20px;"></p>
+
+    <!-- コントロールボタン -->
+    <div class="control-panel">
+      <button id="spin-btn" class="ctrl-btn start" style="background-color: #e67e22;">スロットを回す (10コイン)</button>
+      <button id="back-btn" class="ctrl-btn back">メニューへ戻る</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/slot.js"></script>
+</body>
+</html>
