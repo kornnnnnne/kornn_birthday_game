@@ -121,6 +121,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startBtn.textContent = 'もう一度挑戦する';
     startBtn.style.display = 'block';
+
+     // サーバーへスコアとクイズゲームの種別を送信してコインを獲得する
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        action: "saveScore",
+        name: loggedInUser,
+        score: score,
+        gameType: "quiz" // ★ GAS側の switch で "quiz" の計算ルールが適用されます
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        // 獲得コインがある場合はポップアップ等で知らせることもできます
+        if (data.earnedCoins > 0) {
+          alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
+        }
+      } else {
+        console.error("スコア保存エラー:", data.message);
+      }
+    })
   }
 
   // イベント登録
