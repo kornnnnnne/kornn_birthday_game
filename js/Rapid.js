@@ -1,3 +1,8 @@
+// メニューに戻るボタン
+document.getElementById('back-menu-btn').addEventListener('click', () => {
+  window.location.href = 'menu.html';
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // 制限時間（秒）
   const GAME_DURATION = 10;
