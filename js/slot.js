@@ -75,21 +75,23 @@ spinBtn.addEventListener('click', () => {
       reel2El.textContent = data.reels[1];
       reel3El.textContent = data.reels[2];
       
-      slotMsgEl.textContent = data.message;
       if (coinDisplay) {
         coinDisplay.textContent = data.totalCoins;
       }
 
+      // ★ アラートを出さず、画面上のメッセージ欄に文字で結果を表示する
       if (data.payout > 0) {
-        slotMsgEl.style.color = "#2ecc71";
-        alert(`🎉 おめでとうございます！ ${data.payout} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
+        slotMsgEl.style.color = "#2ecc71"; // 緑色（当たり）
+        slotMsgEl.innerHTML = `${data.message}<br>🎉 <strong>+${data.payout} コイン獲得！</strong>`;
       } else {
-        slotMsgEl.style.color = "#e74c3c";
+        slotMsgEl.style.color = "#e74c3c"; // 赤色（はずれ）
+        slotMsgEl.textContent = data.message;
       }
     } else {
       // コイン不足などのエラー
       alert(data.message);
       slotMsgEl.textContent = data.message;
+      slotMsgEl.style.color = "#e74c3c";
       fetchUserCoins(); // コイン表示を最新に直す
     }
   })
@@ -98,5 +100,6 @@ spinBtn.addEventListener('click', () => {
     console.error("通信エラー:", err);
     alert("通信に失敗しました");
     slotMsgEl.textContent = "通信エラーが発生しました";
+    slotMsgEl.style.color = "#e74c3c";
   });
 });
