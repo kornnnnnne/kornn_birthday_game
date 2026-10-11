@@ -21,14 +21,16 @@
     <p class="description">1回 10コインで挑戦！絵柄を揃えてコインを稼ごう！</p>
 
     <!-- スロットの出目ボード -->
-    <div class="slot-container" style="font-size: 50px; margin: 30px auto; background: #222; padding: 20px; border-radius: 12px; display: inline-flex; gap: 15px; border: 3px solid #f1c40f;">
+    <div class="slot-container" style="font-size: 50px; margin: 20px auto 10px auto; background: #222; padding: 20px; border-radius: 12px; display: inline-flex; gap: 15px; border: 3px solid #f1c40f;">
       <span id="reel1">🌽</span>
       <span id="reel2">🔔</span>
       <span id="reel3">7️⃣</span>
     </div>
 
-    <!-- 結果メッセージ -->
-    <p id="slot-message" style="font-weight: bold; font-size: 18px; min-height: 28px; color: #fff; margin-bottom: 20px;"></p>
+    <!-- ★ 出目のすぐ下に結果・獲得コインメッセージを表示 -->
+    <div style="margin-bottom: 25px;">
+      <p id="slot-message" style="font-weight: bold; font-size: 18px; min-height: 28px; color: #fff; margin: 0;"></p>
+    </div>
 
     <!-- コントロールボタン -->
     <div class="control-panel">
