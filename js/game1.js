@@ -141,7 +141,7 @@ function saveScore(name, score) {
       addcoin = addCoinsToPlayer(Coinamount)
 
       if (data.earnedCoins > 0) {
-        alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
+        alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${addcoin} コイン）`);
       }
 
       // ランキングリストの生成
