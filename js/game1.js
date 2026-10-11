@@ -136,7 +136,7 @@ function saveScore(name, score) {
       }
 
       if(score > 10){
-        Coinamount = score * 2
+        Coinamount = int(score) * 2
       }
       addcoin = addCoinsToPlayer(Coinamount)
 
