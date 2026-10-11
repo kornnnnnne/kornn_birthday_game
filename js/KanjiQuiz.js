@@ -127,3 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
   startBtn.addEventListener('click', startGame);
   answerForm.addEventListener('submit', checkAnswer);
 });
+
+// メニューに戻るボタン
+document.getElementById('back-menu-btn').addEventListener('click', () => {
+  window.location.href = 'menu.html';
+});
