@@ -20,7 +20,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-    .status-list, .equip-section {
+    .status-list, .equip-section, .item-section {
       background: #333;
       padding: 15px;
       border-radius: 8px;
@@ -32,6 +32,11 @@
       justify-content: space-between;
       margin: 8px 0;
       font-size: 16px;
+    }
+    .bonus-text {
+      color: #2ecc71;
+      font-size: 14px;
+      margin-left: 5px;
     }
     .equip-group {
       margin-bottom: 15px;
@@ -64,6 +69,12 @@
     .action-btn:hover {
       background: #219653;
     }
+    .item-list-box {
+      font-size: 14px;
+      color: #ddd;
+      padding-left: 20px;
+      margin: 5px 0 0 0;
+    }
     .back-btn {
       margin-top: 15px;
       padding: 10px 20px;
@@ -91,12 +102,20 @@
     <!-- ステータス表示 -->
     <div class="status-list">
       <h3>ステータス</h3>
-      <div class="status-item"><span>HP:</span> <strong id="stat-hp">-</strong></div>
-      <div class="status-item"><span>MP:</span> <strong id="stat-mp">-</strong></div>
-      <div class="status-item"><span>攻撃力:</span> <strong id="stat-attack">-</strong></div>
-      <div class="status-item"><span>魔法攻撃力:</span> <strong id="stat-magicAttack">-</strong></div>
-      <div class="status-item"><span>防御力:</span> <strong id="stat-defense">-</strong></div>
-      <div class="status-item"><span>魔法防御力:</span> <strong id="stat-magicDefense">-</strong></div>
+      <div class="status-item"><span>HP:</span> <div><strong id="stat-hp">-</strong></div></div>
+      <div class="status-item"><span>MP:</span> <div><strong id="stat-mp">-</strong></div></div>
+      <div class="status-item"><span>攻撃力:</span> <div><strong id="stat-attack">-</strong><span id="bonus-attack" class="bonus-text"></span></div></div>
+      <div class="status-item"><span>魔法攻撃力:</span> <div><strong id="stat-magicAttack">-</strong><span id="bonus-magicAttack" class="bonus-text"></span></div></div>
+      <div class="status-item"><span>防御力:</span> <div><strong id="stat-defense">-</strong><span id="bonus-defense" class="bonus-text"></span></div></div>
+      <div class="status-item"><span>魔法防御力:</span> <div><strong id="stat-magicDefense">-</strong><span id="bonus-magicDefense" class="bonus-text"></span></div></div>
+    </div>
+
+    <!-- 所持アイテム一覧セクション -->
+    <div class="item-section">
+      <h3>所持アイテム</h3>
+      <ul id="inventory-item-list" class="item-list-box">
+        <li>アイテムはありません</li>
+      </ul>
     </div>
 
     <!-- 装備変更セクション -->
