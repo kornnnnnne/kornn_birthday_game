@@ -135,6 +135,22 @@ h1 {
   color: white;
 }
 
+#top-left-controls {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+#back-menu-btn, #result-back-menu-btn {
+  padding: 8px 14px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .ctrl-btn.start:hover {
   background-color: #00a181;
 }
