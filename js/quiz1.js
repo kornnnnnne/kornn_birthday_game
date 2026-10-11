@@ -181,6 +181,32 @@ function showResult() {
   document.getElementById('correct-count').textContent = correctCount;
   document.getElementById('final-score').textContent = score;
 
+  // サーバーへスコアとクイズゲームの種別を送信してコインを獲得する
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: "saveScore",
+      name: loggedInUser,
+      score: score,
+      gameType: "quiz" // ★ GAS側の switch で "quiz" の計算ルールが適用されます
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      // 獲得コインがある場合はポップアップ等で知らせることもできます
+      if (data.earnedCoins > 0) {
+        console.log(`🎉 クイズ報酬: ${data.earnedCoins} コイン獲得！（所持金: ${data.totalCoins}）`);
+      }
+    } else {
+      console.error("スコア保存エラー:", data.message);
+    }
+  })
+  .catch(err => {
+    console.error("通信エラー:", err);
+  });
+
   // 今後：ここで GAS にスコア保存（またはハイスコア更新）のリクエストを送ることができます！
 }
 
