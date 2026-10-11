@@ -197,7 +197,7 @@ function showResult() {
     if (data.status === "success") {
       // 獲得コインがある場合はポップアップ等で知らせることもできます
       if (data.earnedCoins > 0) {
-        console.log(`🎉 クイズ報酬: ${data.earnedCoins} コイン獲得！（所持金: ${data.totalCoins}）`);
+        alert(`🎉 ${data.earnedCoins} コイン獲得しました！（所持金: ${data.totalCoins} コイン）`);
       }
     } else {
       console.error("スコア保存エラー:", data.message);
