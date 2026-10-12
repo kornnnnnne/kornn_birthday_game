@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短編小説 - ストーリー</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f7fafc;
+      color: #2d3748;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .story-container {
+      background: #ffffff;
+      width: 90%;
+      max-width: 650px;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 15px;
+    }
+
+    /* 小説の文章用スタイル（縦書き風の読みやすい横書き、段落のインデントなど） */
+    .story-body {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #4a5568;
+      text-align: left;
+      white-space: pre-wrap; /* 改行やスペースをそのまま反映 */
+    }
+
+    /* メニューへ戻るボタン */
+    .back-menu-btn {
+      display: block;
+      width: 200px;
+      margin: 0 auto;
+      padding: 12px;
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 2px 5px rgba(49, 130, 206, 0.3);
+    }
+
+    .back-menu-btn:hover {
+      background-color: #2b6cb0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="story-container">
+    <h1 id="story-title">📖 ストーリー 1：はじまりの背景</h1>
+    
+    <!-- ここに小説の本文を書き込んでいきます -->
+    <div class="story-body" id="story-text">
+ここに短編小説の文章を書き込んでいきます。
+
+例えば、最終ボスや世界観の裏側にあるストーリー、キャラクターの過去の背景などをここに自由に記述できます。
+改行もそのまま綺麗に表示されるので、段落ごとにスペースを空けながら執筆可能です。
+
+「……ふふっ、まさかここまで辿り着く者が現れるとはな。」
+闇の中に響く声は、どこか懐かしさを帯びていた。
+    </div>
+  </div>
+
+  <!-- メニューに戻るボタン -->
+  <a href="menu.html" class="back-menu-btn">メニューに戻る</a>
+
+  <!-- スクリプト読み込み（BGMなどを共通で鳴らしたい場合） -->
+  <script src="js/config.js"></script>
+</body>
+</html>
