@@ -241,9 +241,10 @@ function endBattle(isWin) {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        action: "updateCoins",
+        action: "addExpAndCoins",
         name: loggedInUser,
-        amount: earnedCoins
+        amount: earnedCoins,
+        earnedExp: earnedExp
       })
     })
     .then(res => res.json())
@@ -251,6 +252,10 @@ function endBattle(isWin) {
       if (data.status === "success") {
         document.getElementById('coin-display').textContent = data.totalCoins;
         addLog(`💰 所持金が ${earnedCoins} コイン増えました！（残高: ${data.totalCoins} コイン）`);
+        addLog(`✨ +${earnedExp} 経験値を獲得した！`);
+      }
+      if (data.leveledUp) {
+        addLog(`🎉 <strong>レベルが ${data.newLevel} に上がった！！ステータスがアップした！</strong>`);
       }
     });
   } else {
