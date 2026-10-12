@@ -25,8 +25,29 @@
       background: #333;
       padding: 10px;
       border-radius: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       display: inline-block;
+    }
+    /* カテゴリ切り替えボタン群 */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      padding: 8px 12px;
+      background: #444;
+      color: #aaa;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .tab-btn.active {
+      background: #e67e22;
+      color: white;
     }
     .item-list {
       display: flex;
@@ -97,6 +118,14 @@
   <div class="shop-container">
     <div class="coin-box">
       所持金: 💰 <span id="player-coins">0</span> コイン
+    </div>
+
+    <!-- カテゴリ選択タブ -->
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="switchCategory('all', this)">すべて</button>
+      <button class="tab-btn" onclick="switchCategory('weapon', this)">武器</button>
+      <button class="tab-btn" onclick="switchCategory('armor', this)">防具</button>
+      <button class="tab-btn" onclick="switchCategory('potion', this)">アイテム</button>
     </div>
 
     <!-- 商品一覧エリア -->
