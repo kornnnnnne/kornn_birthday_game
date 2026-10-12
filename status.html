@@ -33,6 +33,18 @@
       margin: 8px 0;
       font-size: 16px;
     }
+    .level-box {
+      background: #222;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #444;
+      font-size: 16px;
+      color: #f1c40f;
+    }
     .bonus-text {
       color: #2ecc71;
       font-size: 14px;
@@ -102,6 +114,13 @@
     <!-- ステータス表示 -->
     <div class="status-list">
       <h3>ステータス</h3>
+
+      <!-- ★ レベル & 経験値表示エリア -->
+      <div class="level-box">
+        <span>Lv. <strong id="stat-level" style="font-size: 20px; color: #fff;">1</strong></span>
+        <span>EXP: <strong id="stat-exp" style="color: #fff;">0</strong> / <span id="stat-next-exp" style="color: #aaa;">100</span></span>
+      </div>
+
       <div class="status-item"><span>HP:</span> <div><strong id="stat-hp">-</strong></div></div>
       <div class="status-item"><span>MP:</span> <div><strong id="stat-mp">-</strong></div></div>
       <div class="status-item"><span>攻撃力:</span> <div><strong id="stat-attack">-</strong><span id="bonus-attack" class="bonus-text"></span></div></div>
