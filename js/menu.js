@@ -75,6 +75,61 @@ document.getElementById('to-boss-btn').addEventListener('click', () => {
   window.location.href = 'boss.html';
 });
 
+// ログインチェックや既存の初期化処理のあと、インベントリアイテムを反映する関数を追加
+
+function checkStoryUnlock(potionsStr) {
+  if (!potionsStr) return;
+
+  // 所持しているポーション・ストーリーアイテムの文字列を配列に分解
+  // 例: "初級ポーション:1,ストーリー1:1,ストーリー2:1"
+  const items = potionsStr.split(",");
+  
+  items.forEach(itemInfo => {
+    const parts = itemInfo.split(":");
+    const itemName = parts[0].trim();
+    const count = parseInt(parts[1]) || 0;
+
+    if (count > 0) {
+      if (itemName === "ストーリー1") {
+        const btn = document.getElementById('to-story1-btn');
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.add('unlocked');
+          btn.onclick = () => { window.location.href = 'story1.html'; };
+        }
+      } else if (itemName === "ストーリー2") {
+        const btn = document.getElementById('to-story2-btn');
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.add('unlocked');
+          btn.onclick = () => { window.location.href = 'story2.html'; };
+        }
+      } else if (itemName === "ストーリー3") {
+        const btn = document.getElementById('to-story3-btn');
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.add('unlocked');
+          btn.onclick = () => { window.location.href = 'story3.html'; };
+        }
+      } else if (itemName === "ストーリー4") {
+        const btn = document.getElementById('to-story4-btn');
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.add('unlocked');
+          btn.onclick = () => { window.location.href = 'story4.html'; };
+        }
+      }
+    }
+  });
+}
+
+// 既存のサーバーデータ取得（fetchPlayerDataなど）の中で、
+// inv.potions が取得できたら上記関数に渡すように組み込んでください。
+// 例:
+// if (data.inventory && data.inventory.potions) {
+//   checkStoryUnlock(data.inventory.potions);
+// }
+
 // ログアウト処理
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('loggedInUser');
