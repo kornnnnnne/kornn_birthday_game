@@ -55,10 +55,10 @@
       margin-bottom: 20px;
       border: 1px solid #444;
     }
-    .command-box button {
-      padding: 10px 20px;
+    .command-box button, .dynamic-item-btn {
+      padding: 10px 18px;
       margin: 5px;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       border: none;
       border-radius: 5px;
@@ -66,7 +66,7 @@
       color: white;
       font-weight: bold;
     }
-    .command-box button:hover {
+    .command-box button:hover, .dynamic-item-btn:hover {
       background: #d35400;
     }
     .command-box button:disabled {
@@ -78,6 +78,12 @@
     }
     .item-btn:hover {
       background: #219653 !important;
+    }
+    .back-cmd-btn {
+      background: #7f8c8d !important;
+    }
+    .back-cmd-btn:hover {
+      background: #626c6d !important;
     }
     .back-btn {
       margin-top: 20px;
@@ -117,10 +123,16 @@
     <!-- 戦闘ログ -->
     <div id="log-box">戦闘開始！コマンドを選んでください。</div>
 
-    <!-- コマンドボタン -->
+    <!-- コマンドボタン領域 -->
     <div class="command-box" id="command-box">
       <button id="attack-btn">たたかう</button>
-      <button id="item-btn" class="item-btn">アイテムを使う</button>
+      <button id="item-select-toggle-btn" class="item-btn">アイテムを使う</button>
+    </div>
+
+    <!-- アイテム選択用領域（最初は非表示） -->
+    <div id="item-command-box" style="display: none; text-align: center;">
+      <div id="item-buttons-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px;"></div>
+      <button id="back-to-main-btn" class="dynamic-item-btn back-cmd-btn">もどる</button>
     </div>
   </div>
 
