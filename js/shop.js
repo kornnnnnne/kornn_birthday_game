@@ -39,16 +39,28 @@ function renderShop() {
   const listContainer = document.getElementById('shop-item-list');
   listContainer.innerHTML = "";
 
-  // プレイヤーが持っている武器・防具・アイテムをすべて結合してチェックしやすくする
+  // プレイヤーが持っている武器、防具、ポーション類をすべて分解して配列にする
   const ownedWeapons = playerInventory.weapons ? playerInventory.weapons.split(",") : [];
   const ownedArmors = playerInventory.armors ? playerInventory.armors.split(",") : [];
-  const allOwned = [...ownedWeapons, ...ownedArmors];
+  
+  // ポーション等の所持品リスト（例: "初級ポーション:2,ストーリー1:1" のような形式に対応）
+  let ownedPotions = [];
+  if (playerInventory.potions) {
+    playerInventory.potions.split(",").forEach(p => {
+      // "アイテム名:個数" の形式からアイテム名だけを抽出する
+      const parts = p.split(":");
+      ownedPotions.push(parts[0].trim());
+    });
+  }
+
+  // すべての所持アイテムをひとまとめにする
+  const allOwned = [...ownedWeapons, ...ownedArmors, ...ownedPotions];
 
   shopItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'item-card';
 
-    // unique: true のアイテムをすでに持っているかチェック
+    // ★ unique: true のアイテム（ポーションやストーリー含む）をすでに持っているかチェック
     const isAlreadyOwned = item.unique && allOwned.includes(item.name);
 
     let buttonHtml = "";
