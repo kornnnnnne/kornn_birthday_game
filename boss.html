@@ -20,20 +20,12 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-    .status-box {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 20px;
-      background: #333;
-      padding: 15px;
-      border-radius: 8px;
-    }
-    .hp-gauge-container {
+    .hp-gauge-container, .mp-gauge-container {
       background: #444;
       border-radius: 5px;
-      height: 20px;
+      height: 18px;
       width: 100%;
-      margin-top: 5px;
+      margin-top: 4px;
       overflow: hidden;
       border: 1px solid #555;
     }
@@ -45,6 +37,12 @@
     }
     .player-hp-gauge {
       background: #2ecc71;
+    }
+    .mp-gauge {
+      background: #3498db;
+      height: 100%;
+      width: 100%;
+      transition: width 0.3s ease;
     }
     #log-box {
       background: #111;
@@ -75,6 +73,12 @@
       background: #7f8c8d;
       cursor: not-allowed;
     }
+    .item-btn {
+      background: #27ae60 !important;
+    }
+    .item-btn:hover {
+      background: #219653 !important;
+    }
     .back-btn {
       margin-top: 20px;
       background: #7f8c8d !important;
@@ -90,7 +94,7 @@
     <!-- ボス情報 -->
     <div class="boss-info">
       <h2 id="boss-name">コーン魔王</h2>
-      <p>HP: <span id="boss-current-hp">200</span> / <span id="boss-max-hp">200</span></p>
+      <p>HP: <span id="boss-current-hp">7000</span> / <span id="boss-max-hp">7000</span></p>
       <div class="hp-gauge-container">
         <div id="boss-hp-gauge" class="hp-gauge"></div>
       </div>
@@ -98,11 +102,15 @@
 
     <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
 
-    <!-- プレイヤー情報 -->
-    <div class="player-info">
-      <p>あなたのHP: <span id="player-current-hp">---</span> / <span id="player-max-hp">---</span></p>
+    <!-- プレイヤー情報（HP & MP） -->
+    <div class="player-info" style="text-align: left; margin-bottom: 15px;">
+      <p style="margin: 5px 0;">HP: <span id="player-current-hp">---</span> / <span id="player-max-hp">---</span></p>
       <div class="hp-gauge-container">
         <div id="player-hp-gauge" class="hp-gauge player-hp-gauge"></div>
+      </div>
+      <p style="margin: 10px 0 5px 0;">MP: <span id="player-current-mp">---</span> / <span id="player-max-mp">---</span></p>
+      <div class="mp-gauge-container">
+        <div id="player-mp-gauge" class="mp-gauge"></div>
       </div>
     </div>
 
@@ -111,8 +119,8 @@
 
     <!-- コマンドボタン -->
     <div class="command-box" id="command-box">
-      <button id="attack-btn" onclick="playerAttack()">たたかう</button>
-      <button id="escape-btn" onclick="escapeBattle()" class="back-btn">にげる</button>
+      <button id="attack-btn">たたかう</button>
+      <button id="item-btn" class="item-btn">アイテムを使う</button>
     </div>
   </div>
 
