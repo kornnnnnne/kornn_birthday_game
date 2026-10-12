@@ -13,70 +13,86 @@ body {
 .menu-card {
   background: #ffffff;
   width: 90%;
-  max-width: 420px;
-  padding: 30px 25px;
+  max-width: 460px;
+  padding: 25px 20px;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 h1 {
-  font-size: 26px;
+  font-size: 24px;
   color: #2c3e50;
   margin-top: 0;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   font-size: 14px;
   color: #7f8c8d;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-/* ゲーム選択ボタン一覧 */
-.game-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* 各ゲームへのリンクボタン */
-.game-item {
-  display: block;
-  padding: 16px;
-  background-color: #ffffff;
-  border: 2px solid #e1e8ed;
+/* 各セクションのブロック */
+.menu-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  text-decoration: none;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.menu-section h3 {
+  font-size: 14px;
+  color: #4a5568;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+
+/* ボタンを綺麗に並べるグリッド */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* メニューボタン共通のデザイン */
+.menu-btn {
+  padding: 12px 10px;
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
   color: #2c3e50;
+  cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  text-align: center;
 }
 
-.game-item:hover {
+.menu-btn:hover {
   transform: translateY(-2px);
-  border-color: #0984e3;
-  box-shadow: 0 6px 12px rgba(9, 132, 227, 0.15);
+  border-color: #3182ce;
+  color: #3182ce;
+  box-shadow: 0 4px 8px rgba(49, 130, 206, 0.15);
 }
 
-.game-item:active {
+.menu-btn:active {
   transform: translateY(0);
 }
 
-.game-title {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
+/* 特定の重要ボタンのアクセントカラー */
+.menu-btn.battle { background-color: #f0fff4; border-color: #38a169; color: #22543d; }
+.menu-btn.boss { background-color: #fff5f5; border-color: #e53e3e; color: #742a2a; }
+.menu-btn.shop { background-color: #fffaf0; border-color: #dd6b20; color: #7b341e; }
+.menu-btn.slot { background-color: #f7fafc; border-color: #d69e2e; color: #744210; }
+.menu-btn.status { background-color: #ebf8ff; border-color: #3182ce; color: #2b6cb0; }
 
-.game-desc {
-  display: block;
-  font-size: 12px;
-  color: #636e72;
-}
-
-/* 画面の【右上】に完全固定 */
+/* 画面の【右上】所持金バッジ */
 #top-right-controls {
   position: absolute;
   top: 15px;
@@ -85,7 +101,6 @@ h1 {
   text-align: right;
 }
 
-/* 所持金バッジ */
 .coin-badge {
   background-color: #fff3cd;
   color: #856404;
@@ -96,4 +111,26 @@ h1 {
   border: 1px solid #ffeeba;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   display: inline-block;
+}
+
+/* 左上コントロール */
+#top-left-controls {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 10;
+}
+
+.sub-btn {
+  padding: 6px 12px;
+  background: #e2e8f0;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #4a5568;
+  cursor: pointer;
+}
+.sub-btn:hover {
+  background: #cbd5e1;
 }
