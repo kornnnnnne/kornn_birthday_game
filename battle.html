@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>モンスター討伐クエスト - Battle</title>
+  <link rel="stylesheet" href="css/Rapid.css"> <!-- 既存の共通CSS -->
+</head>
+<body>
+
+  <!-- 左上コントロール & 所持コイン表示 -->
+  <div id="top-left-controls" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+    <button id="back-menu-btn">メニューへ</button>
+    <div style="color: #f1c40f; font-weight: bold; font-size: 16px;">
+      💰 所持コイン: <span id="coin-display">0</span>
+    </div>
+  </div>
+
+  <div class="game-card" style="text-align: center;">
+    <h1>⚔️ モンスター討伐クエスト ⚔️</h1>
+    <p class="description">挑む難易度を選んで、現れるモンスターと戦おう！</p>
+
+    <!-- バトル結果・モンスター表示エリア -->
+    <div style="background: #222; padding: 25px; border-radius: 12px; margin: 25px auto; max-width: 400px; border: 2px solid #555;">
+      <p id="battle-message" style="color: #fff; font-size: 18px; line-height: 1.6; margin: 0;">
+        難易度を選んでバトルを開始してね！
+      </p>
+    </div>
+
+    <!-- 難易度選択ボタン（各難易度3体ずつのランダムエンカウント） -->
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto;">
+      <button class="ctrl-btn battle-btn" data-diff="easy" style="background-color: #27ae60;">🟢 初級に挑む</button>
+      <button class="ctrl-btn battle-btn" data-diff="normal" style="background-color: #f39c12;">🟡 中級に挑む</button>
+      <button class="ctrl-btn battle-btn" data-diff="hard" style="background-color: #c0392b;">🔴 上級に挑む</button>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <button id="back-btn" class="ctrl-btn back">メニューへ戻る</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/battle.js"></script>
+</body>
+</html>
