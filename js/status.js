@@ -58,6 +58,15 @@ function fetchStatusAndInventory() {
       const expEl = document.getElementById('stat-exp');
       if (expEl) expEl.textContent = s.exp || 0;
 
+      // ★ 次のレベルまでに必要な経験値の計算・表示
+      // 例: レベルが上がるごとに必要EXPが増える場合（例: レベル * 100 など）
+      // もしサーバー側から nextExp が送られてくる場合は s.nextExp を使ってもOKです
+      const nextExpEl = document.getElementById('stat-next-exp');
+      if (nextExpEl) {
+        // サーバーから次の必要EXPが届かない場合の計算式（例: 現在レベル * 100）
+        const requiredExp = s.nextExp || (currentLevel * 100);
+        nextExpEl.textContent = requiredExp;
+
       // 基本ステータス反映
       document.getElementById('stat-hp').textContent = s.hp;
       document.getElementById('stat-mp').textContent = s.mp;
