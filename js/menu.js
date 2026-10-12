@@ -5,11 +5,11 @@ if (!loggedInUser) {
   window.location.href = 'index.html';
 }
 
-// ==========================================
-// ★【追加】ページを開いたときに現在のコインを取得して表示する
-// ==========================================
+// ページを開いたときに現在のコインとインベントリを取得して表示する
 const coinDisplay = document.getElementById('coin-display');
-function fetchUserCoins() {
+
+function fetchPlayerMenuData() {
+  // コイン情報の取得
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -27,10 +27,31 @@ function fetchUserCoins() {
   .catch(err => {
     console.error("コイン情報の取得に失敗しました:", err);
   });
+
+  // ★ インベントリ（所持アイテム）情報の取得を追加！
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: "getStatusAndInventory", // またはインベントリが取れる既存のアクション
+      name: loggedInUser
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success" && data.inventoryData) {
+      // ストーリーの開放チェックを実行
+      checkStoryUnlock(data.inventoryData.potions);
+    }
+  })
+  .catch(err => {
+    console.error("インベントリ情報の取得に失敗しました:", err);
+  });
 }
 
 // ページを開いたときに実行！
-fetchUserCoins();
+fetchPlayerMenuData();
+
 // プレイヤー名表示
 document.getElementById('player-display').textContent = loggedInUser;
 
@@ -75,13 +96,10 @@ document.getElementById('to-boss-btn').addEventListener('click', () => {
   window.location.href = 'boss.html';
 });
 
-// ログインチェックや既存の初期化処理のあと、インベントリアイテムを反映する関数を追加
-
+// ストーリーアイテムを所持しているかチェックしてボタンを開放する関数
 function checkStoryUnlock(potionsStr) {
   if (!potionsStr) return;
 
-  // 所持しているポーション・ストーリーアイテムの文字列を配列に分解
-  // 例: "初級ポーション:1,ストーリー1:1,ストーリー2:1"
   const items = potionsStr.split(",");
   
   items.forEach(itemInfo => {
@@ -122,13 +140,6 @@ function checkStoryUnlock(potionsStr) {
     }
   });
 }
-
-// 既存のサーバーデータ取得（fetchPlayerDataなど）の中で、
-// inv.potions が取得できたら上記関数に渡すように組み込んでください。
-// 例:
-// if (data.inventory && data.inventory.potions) {
-//   checkStoryUnlock(data.inventory.potions);
-// }
 
 // ログアウト処理
 document.getElementById('logout-btn').addEventListener('click', () => {
