@@ -9,10 +9,30 @@ document.getElementById('player-display').textContent = loggedInUser;
 
 // 装備品のステータス補正値マスター
 const equipmentStats = {
+// 武器
   "銅の剣": { type: "attack", value: 10 },
   "鉄の剣": { type: "attack", value: 25 },
+  "コーンの剣": { type: "attack", value: 100 },
+  "伝説の剣": { type: "attack", value: 1000 },
+
+  // 防具
   "布の服": { type: "defense", value: 5 },
-  "鉄の鎧": { type: "defense", value: 18 }
+  "鉄の鎧": { type: "defense", value: 20 }, // リストのバランスや元データに合わせて調整可能
+  "コーンの鎧": { type: "defense", value: 100 },
+  "伝説の鎧": { type: "defense", value: 500 },
+
+  // ポーション・その他アイテム（必要に応じて回復量や効果を設定）
+  "初級ポーション": { type: "heal", value: 50 },
+  "中級ポーション": { type: "heal", value: 100 },
+  "上級ポーション": { type: "heal", value: 200 },
+  "MPポーション": { type: "heal_mp", value: 50 },
+  "爆薬": { type: "special", value: 0 },
+  "コーン茶": { type: "heal", value: 30 },
+  "願いの雫": { type: "special", value: 0 },
+  "ストーリー1": { type: "story", value: 0 },
+  "ストーリー2": { type: "story", value: 0 },
+  "ストーリー3": { type: "story", value: 0 },
+  "ストーリー4": { type: "story", value: 0 }
 };
 
 // サーバーからステータスとインベントリ情報を一括取得
