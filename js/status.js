@@ -9,7 +9,7 @@ document.getElementById('player-display').textContent = loggedInUser;
 
 // 装備品のステータス補正値マスター
 const equipmentStats = {
-// 武器
+  // 武器
   "銅の剣": { type: "attack", value: 10 },
   "鉄の剣": { type: "attack", value: 25 },
   "コーンの剣": { type: "attack", value: 100 },
@@ -17,11 +17,11 @@ const equipmentStats = {
 
   // 防具
   "布の服": { type: "defense", value: 5 },
-  "鉄の鎧": { type: "defense", value: 20 }, // リストのバランスや元データに合わせて調整可能
+  "鉄の鎧": { type: "defense", value: 20 },
   "コーンの鎧": { type: "defense", value: 100 },
   "伝説の鎧": { type: "defense", value: 500 },
 
-  // ポーション・その他アイテム（必要に応じて回復量や効果を設定）
+  // ポーション・その他アイテム
   "初級ポーション": { type: "heal", value: 50 },
   "中級ポーション": { type: "heal", value: 100 },
   "上級ポーション": { type: "heal", value: 200 },
@@ -51,6 +51,13 @@ function fetchStatusAndInventory() {
       const s = data.statusData;
       const inv = data.inventoryData;
 
+      // ★【追加】レベルと経験値（EXP）の反映
+      const levelEl = document.getElementById('stat-level');
+      if (levelEl) levelEl.textContent = s.level || 1;
+
+      const expEl = document.getElementById('stat-exp');
+      if (expEl) expEl.textContent = s.exp || 0;
+
       // 基本ステータス反映
       document.getElementById('stat-hp').textContent = s.hp;
       document.getElementById('stat-mp').textContent = s.mp;
@@ -74,56 +81,61 @@ function fetchStatusAndInventory() {
 
       // ボーナス表示の更新
       const bonusAtkEl = document.getElementById('bonus-attack');
-      bonusAtkEl.textContent = bonusAttack > 0 ? ` (+${bonusAttack})` : "";
+      if (bonusAtkEl) bonusAtkEl.textContent = bonusAttack > 0 ? ` (+${bonusAttack})` : "";
 
       const bonusDefEl = document.getElementById('bonus-defense');
-      bonusDefEl.textContent = bonusDefense > 0 ? ` (+${bonusDefense})` : "";
+      if (bonusDefEl) bonusDefEl.textContent = bonusDefense > 0 ? ` (+${bonusDefense})` : "";
 
       // 2. 装備・所持品反映
-      document.getElementById('current-weapon').textContent = inv.equippedWeapon;
-      document.getElementById('current-armor').textContent = inv.equippedArmor;
+      document.getElementById('current-weapon').textContent = inv.equippedWeapon || "なし";
+      document.getElementById('current-armor').textContent = inv.equippedArmor || "なし";
 
       // 武器セレクトボックスの構築
       const weaponSelect = document.getElementById('weapon-select');
-      weaponSelect.innerHTML = '<option value="なし">なし</option>';
-      if (inv.weapons) {
-        inv.weapons.split(",").forEach(wName => {
-          const opt = document.createElement('option');
-          opt.value = wName;
-          opt.textContent = wName;
-          if (wName === inv.equippedWeapon) opt.selected = true;
-          weaponSelect.appendChild(opt);
-        });
+      if (weaponSelect) {
+        weaponSelect.innerHTML = '<option value="なし">なし</option>';
+        if (inv.weapons) {
+          inv.weapons.split(",").forEach(wName => {
+            const opt = document.createElement('option');
+            opt.value = wName;
+            opt.textContent = wName;
+            if (wName === inv.equippedWeapon) opt.selected = true;
+            weaponSelect.appendChild(opt);
+          });
+        }
       }
 
       // 防具セレクトボックスの構築
       const armorSelect = document.getElementById('armor-select');
-      armorSelect.innerHTML = '<option value="なし">なし</option>';
-      if (inv.armors) {
-        inv.armors.split(",").forEach(aName => {
-          const opt = document.createElement('option');
-          opt.value = aName;
-          opt.textContent = aName;
-          if (aName === inv.equippedArmor) opt.selected = true;
-          armorSelect.appendChild(opt);
-        });
+      if (armorSelect) {
+        armorSelect.innerHTML = '<option value="なし">なし</option>';
+        if (inv.armors) {
+          inv.armors.split(",").forEach(aName => {
+            const opt = document.createElement('option');
+            opt.value = aName;
+            opt.textContent = aName;
+            if (aName === inv.equippedArmor) opt.selected = true;
+            armorSelect.appendChild(opt);
+          });
+        }
       }
 
       // 3. 所持アイテム（ポーション等）一覧の構築
       const itemListBox = document.getElementById('inventory-item-list');
-      itemListBox.innerHTML = "";
-      if (inv.potions && inv.potions.trim() !== "") {
-        inv.potions.split(",").forEach(potionStr => {
-          // 例: "ポーション:2" のような形式を分割
-          const [pName, pCount] = potionStr.split(":");
+      if (itemListBox) {
+        itemListBox.innerHTML = "";
+        if (inv.potions && inv.potions.trim() !== "") {
+          inv.potions.split(",").forEach(potionStr => {
+            const [pName, pCount] = potionStr.split(":");
+            const li = document.createElement('li');
+            li.textContent = `${pName} × ${pCount || 1}`;
+            itemListBox.appendChild(li);
+          });
+        } else {
           const li = document.createElement('li');
-          li.textContent = `${pName} × ${pCount || 1}`;
+          li.textContent = "所持アイテムはありません";
           itemListBox.appendChild(li);
-        });
-      } else {
-        const li = document.createElement('li');
-        li.textContent = "所持アイテムはありません";
-        itemListBox.appendChild(li);
+        }
       }
 
     } else {
@@ -139,10 +151,12 @@ function fetchStatusAndInventory() {
 // 装備変更処理
 function changeEquipment(itemType) {
   const msgBox = document.getElementById('message-box');
-  msgBox.textContent = "";
+  if (msgBox) msgBox.textContent = "";
 
   let selectId = (itemType === 'weapon') ? 'weapon-select' : 'armor-select';
-  const itemName = document.getElementById(selectId).value;
+  const selectEl = document.getElementById(selectId);
+  if (!selectEl) return;
+  const itemName = selectEl.value;
 
   fetch(GAS_URL, {
     method: 'POST',
@@ -157,18 +171,24 @@ function changeEquipment(itemType) {
   .then(res => res.json())
   .then(data => {
     if (data.status === "success") {
-      msgBox.style.color = "#2ecc71";
-      msgBox.textContent = data.message;
+      if (msgBox) {
+        msgBox.style.color = "#2ecc71";
+        msgBox.textContent = data.message;
+      }
       fetchStatusAndInventory(); // 再読み込みして最新化
     } else {
-      msgBox.style.color = "#e74c3c";
-      msgBox.textContent = data.message;
+      if (msgBox) {
+        msgBox.style.color = "#e74c3c";
+        msgBox.textContent = data.message;
+      }
     }
   })
   .catch(err => {
     console.error("装備変更エラー:", err);
-    msgBox.style.color = "#e74c3c";
-    msgBox.textContent = "通信に失敗しました";
+    if (msgBox) {
+      msgBox.style.color = "#e74c3c";
+      msgBox.textContent = "通信に失敗しました";
+    }
   });
 }
 
