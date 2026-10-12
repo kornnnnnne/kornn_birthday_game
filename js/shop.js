@@ -12,9 +12,23 @@ document.getElementById('player-name').textContent = loggedInUser;
 const shopItems = [
   { id: "sword_1", name: "銅の剣", type: "weapon", price: 100, unique: true, desc: "攻撃力 +10" },
   { id: "sword_2", name: "鉄の剣", type: "weapon", price: 300, unique: true, desc: "攻撃力 +25" },
-  { id: "armor_1", name: "布の服", type: "armor", price: 80, unique: true, desc: "防御力 +5" },
-  { id: "armor_2", name: "鉄の鎧", type: "armor", price: 250, unique: true, desc: "防御力 +18" },
-  { id: "potion_1", name: "ポーション", type: "potion", price: 30, unique: false, desc: "HPを50回復する" } // ポーションは何個でも買える
+  { id: "sword_3", name: "コーンの剣", type: "weapon", price: 1000, unique: true, desc: "攻撃力 +100" },
+  { id: "sword_4", name: "伝説の剣", type: "weapon", price: 5000, unique: true, desc: "攻撃力 +1000" },
+  { id: "armor_1", name: "布の服", type: "armor", price: 100, unique: true, desc: "防御力 +5" },
+  { id: "armor_2", name: "鉄の鎧", type: "armor", price: 300, unique: true, desc: "防御力 +20" },
+  { id: "armor_3", name: "コーンの鎧", type: "armor", price: 1000, unique: true, desc: "防御力 +100" },
+  { id: "armor_4", name: "伝説の鎧", type: "armor", price: 5000, unique: true, desc: "防御力 +500" },
+  { id: "potion_1", name: "初級ポーション", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_2", name: "中級ポーション", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_3", name: "上級ポーション", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_4", name: "MPポーション", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_5", name: "爆薬", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_6", name: "コーン茶", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_7", name: "願いの雫", type: "potion", price: 30, unique: false, desc: "HPを50回復する" }
+  { id: "potion_8", name: "ストーリー1", type: "potion", price: 30, unique: true, desc: "物語の開放1/4" }
+  { id: "potion_9", name: "ストーリー2", type: "potion", price: 30, unique: true, desc: "物語の開放2/4" }
+  { id: "potion_10", name: "ストーリー3", type: "potion", price: 30, unique: true, desc: "物語の開放3/4" }
+  { id: "potion_11", name: "ストーリー4", type: "potion", price: 30, unique: true, desc: "物語の開放4/4" }
 ];
 
 let playerCoins = 0;
