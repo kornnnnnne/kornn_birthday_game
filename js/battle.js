@@ -5,6 +5,11 @@ if (!loggedInUser) {
   window.location.href = 'index.html';
 }
 
+// メニューに戻るボタン
+document.getElementById('back-menu-btn').addEventListener('click', () => {
+  window.location.href = 'menu.html';
+});
+
 document.getElementById('player-name').textContent = loggedInUser;
 
 // モンスターデータベース（各難易度3体ずつ）
