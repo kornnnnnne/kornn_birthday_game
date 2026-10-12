@@ -67,6 +67,10 @@ document.getElementById('to-status-btn').addEventListener('click', () => {
   window.location.href = 'status.html';
 });
 
+document.getElementById('to-battle-btn').addEventListener('click', () => {
+  window.location.href = 'battle.html';
+});
+
 document.getElementById('to-boss-btn').addEventListener('click', () => {
   window.location.href = 'boss.html';
 });
