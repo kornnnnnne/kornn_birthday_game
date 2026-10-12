@@ -29,7 +29,7 @@ let playerStatus = {
   magicAttack: 15,
   defense: 10,
   magicDefense: 10,
-  inventoryPotions: {} // 例: { "初級ポーション": 2, "コーン茶": 1 }
+  inventoryPotions: {}
 };
 
 // ボスのステータス（固定）
@@ -50,19 +50,16 @@ function addLog(message) {
 
 // 画面のHP/MPゲージや数値を更新する関数
 function updateDisplay() {
-  // ボス
   document.getElementById('boss-current-hp').textContent = Math.max(0, boss.hp);
   document.getElementById('boss-max-hp').textContent = boss.maxHp;
   const bossHpPercent = (boss.hp / boss.maxHp) * 100;
   document.getElementById('boss-hp-gauge').style.width = `${Math.max(0, bossHpPercent)}%`;
 
-  // プレイヤー HP
   document.getElementById('player-current-hp').textContent = Math.max(0, playerStatus.hp);
   document.getElementById('player-max-hp').textContent = playerStatus.maxHp;
   const playerHpPercent = (playerStatus.hp / playerStatus.maxHp) * 100;
   document.getElementById('player-hp-gauge').style.width = `${Math.max(0, playerHpPercent)}%`;
 
-  // プレイヤー MP
   document.getElementById('player-current-mp').textContent = Math.max(0, playerStatus.mp);
   document.getElementById('player-max-mp').textContent = playerStatus.maxMp;
   const playerMpPercent = (playerStatus.mp / playerStatus.maxMp) * 100;
@@ -91,7 +88,6 @@ function fetchPlayerData() {
       let baseHp = Number(s.hp) || 100;
       let baseMp = Number(s.mp) || 50;
 
-      // 装備ボーナス加算
       if (inv.equippedWeapon && inv.equippedWeapon !== "なし") {
         const effect = ITEM_EFFECTS[inv.equippedWeapon];
         if (effect && effect.type === "attack") baseAttack += effect.value;
@@ -109,7 +105,6 @@ function fetchPlayerData() {
       playerStatus.magicAttack = baseMagicAttack;
       playerStatus.defense = baseDefense;
 
-      // ポーション類をオブジェクト形式でパース ("初級ポーション:2,コーン茶:1" など)
       playerStatus.inventoryPotions = parsePotionInventory(inv.potions);
 
       updateDisplay();
@@ -125,7 +120,7 @@ function fetchPlayerData() {
   });
 }
 
-// ポーション文字列をパースするヘルパー
+// ポーション文字列をパースするヘルパー（ストーリーアイテムなどの非戦闘用を除外することも可能）
 function parsePotionInventory(potionsStr) {
   let result = {};
   if (!potionsStr) return result;
@@ -134,7 +129,10 @@ function parsePotionInventory(potionsStr) {
     if (parts.length === 2) {
       const name = parts[0].trim();
       const count = parseInt(parts[1]) || 0;
-      if (count > 0) result[name] = count;
+      // ストーリー系アイテムを除外して戦闘用アイテムだけにする場合
+      if (count > 0 && !name.includes("ストーリー")) {
+        result[name] = count;
+      }
     }
   });
   return result;
@@ -163,48 +161,65 @@ function playerAttack() {
   setTimeout(bossTurn, 1200);
 }
 
-// アイテム選択・使用処理
-function useItem() {
+// アイテム選択画面を開く
+function showItemSelect() {
   const itemNames = Object.keys(playerStatus.inventoryPotions);
   const availableItems = itemNames.filter(name => playerStatus.inventoryPotions[name] > 0);
 
+  const container = document.getElementById('item-buttons-container');
+  container.innerHTML = "";
+
   if (availableItems.length === 0) {
-    alert("使えるアイテムを持っていません！ショップで購入しよう。");
+    container.innerHTML = `<p style="font-size: 14px; color: #aaa; margin: 10px 0;">使えるアイテムがありません</p>`;
+  } else {
+    availableItems.forEach(itemName => {
+      const count = playerStatus.inventoryPotions[itemName];
+      const btn = document.createElement('button');
+      btn.className = 'dynamic-item-btn';
+      btn.textContent = `${itemName} (${count})`;
+      btn.addEventListener('click', () => {
+        useItem(itemName);
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  // メインコマンドを隠してアイテム選択画面を表示
+  document.getElementById('command-box').style.display = 'none';
+  document.getElementById('item-command-box').style.display = 'block';
+}
+
+// アイテム選択画面からメインコマンドに戻る
+function hideItemSelect() {
+  document.getElementById('item-command-box').style.display = 'none';
+  document.getElementById('command-box').style.display = 'block';
+}
+
+// 個別のアイテムを使用する処理
+function useItem(itemName) {
+  if (playerStatus.inventoryPotions[itemName] <= 0) {
+    alert("アイテムが足りません！");
     return;
   }
 
-  // 選択肢用の文字列を作る
-  let message = "使うアイテムを選んでください:\n";
-  availableItems.forEach((name, index) => {
-    message += `${index + 1}: ${name} (残り: ${playerStatus.inventoryPotions[name]}個)\n`;
-  });
+  // 所持数を減らす
+  playerStatus.inventoryPotions[itemName]--;
 
-  const choiceStr = prompt(message);
-  if (!choiceStr) return; // キャンセルされた場合
-
-  const choiceIndex = parseInt(choiceStr) - 1;
-  if (isNaN(choiceIndex) || choiceIndex < 0 || choiceIndex >= availableItems.length) {
-    alert("無効な選択です。");
-    return;
-  }
-
-  const selectedItem = availableItems[choiceIndex];
-
-  // アイテム消費
-  playerStatus.inventoryPotions[selectedItem]--;
-
-  // サーバー上のインベントリも減らす処理が必要な場合はここでGASにリクエストを送信可能
-  // 効果の適用（例としてHP回復など）
+  // 効果の適用
   let healAmount = 500;
-  if (selectedItem.includes("中級")) healAmount = 1000;
-  if (selectedItem.includes("上級")) healAmount = 2500;
+  if (itemName.includes("中級")) healAmount = 1000;
+  if (itemName.includes("上級")) healAmount = 2500;
 
   playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
   updateDisplay();
 
-  addLog(`🧪 ${selectedItem} を使った！ HPが ${healAmount} 回復した！`);
+  addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
 
+  // アイテム選択画面を隠す
+  hideItemSelect();
   setButtonsEnabled(false);
+
+  // ボスのターンへ
   setTimeout(bossTurn, 1200);
 }
 
@@ -249,18 +264,18 @@ function bossTurn() {
 // ボタンの有効/無効切り替え
 function setButtonsEnabled(enabled) {
   const attackBtn = document.getElementById('attack-btn');
-  const itemBtn = document.getElementById('item-btn');
+  const itemToggleBtn = document.getElementById('item-select-toggle-btn');
 
   if (attackBtn) attackBtn.disabled = !enabled;
-  if (itemBtn) itemBtn.disabled = !enabled;
+  if (itemToggleBtn) itemToggleBtn.disabled = !enabled;
 }
 
 // バトル終了処理
 function endBattle(isWin) {
   setButtonsEnabled(false);
-  const cmdBox = document.getElementById('command-box');
+  document.getElementById('command-box').style.display = 'none';
+  document.getElementById('item-command-box').style.display = 'none';
   const menuBtn = document.getElementById('to-menu-btn');
-  if (cmdBox) cmdBox.style.display = 'none';
   if (menuBtn) menuBtn.style.display = 'block';
 
   if (isWin) {
@@ -270,11 +285,13 @@ function endBattle(isWin) {
   }
 }
 
-// イベントリスナー
+// イベントリスナーの割り当て
 document.addEventListener('DOMContentLoaded', () => {
   const attackBtn = document.getElementById('attack-btn');
-  const itemBtn = document.getElementById('item-btn');
+  const itemToggleBtn = document.getElementById('item-select-toggle-btn');
+  const backToMainBtn = document.getElementById('back-to-main-btn');
 
   if (attackBtn) attackBtn.addEventListener('click', playerAttack);
-  if (itemBtn) itemBtn.addEventListener('click', useItem);
+  if (itemToggleBtn) itemToggleBtn.addEventListener('click', showItemSelect);
+  if (backToMainBtn) backToMainBtn.addEventListener('click', hideItemSelect);
 });
