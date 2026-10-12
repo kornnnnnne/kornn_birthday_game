@@ -8,7 +8,6 @@ if (!loggedInUser) {
 document.getElementById('player-name').textContent = loggedInUser;
 
 // ショップで売っている商品のデータ定義
-// unique: true にしたアイテムは、1回買ったら2回買えなくなります
 const shopItems = [
   { id: "sword_1", name: "銅の剣", type: "weapon", price: 100, unique: true, desc: "攻撃力 +10" },
   { id: "sword_2", name: "鉄の剣", type: "weapon", price: 300, unique: true, desc: "攻撃力 +25" },
@@ -32,35 +31,49 @@ const shopItems = [
 ];
 
 let playerCoins = 0;
-let playerInventory = { weapons: "", armors: "", potions: "" }; // 所持品を保持する変数
+let playerInventory = { weapons: "", armors: "", potions: "" };
+let currentCategory = 'all'; // 現在選択されているカテゴリ
+
+// カテゴリ切り替え関数
+function switchCategory(category, btnElement) {
+  currentCategory = category;
+  
+  // タブの見た目（アクティブ状態）を切り替える
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  btnElement.classList.add('active');
+
+  // リストを再描画
+  renderShop();
+}
 
 // 画面に商品リストを表示する
 function renderShop() {
   const listContainer = document.getElementById('shop-item-list');
   listContainer.innerHTML = "";
 
-  // プレイヤーが持っている武器、防具、ポーション類をすべて分解して配列にする
   const ownedWeapons = playerInventory.weapons ? playerInventory.weapons.split(",") : [];
   const ownedArmors = playerInventory.armors ? playerInventory.armors.split(",") : [];
   
-  // ポーション等の所持品リスト（例: "初級ポーション:2,ストーリー1:1" のような形式に対応）
   let ownedPotions = [];
   if (playerInventory.potions) {
     playerInventory.potions.split(",").forEach(p => {
-      // "アイテム名:個数" の形式からアイテム名だけを抽出する
       const parts = p.split(":");
       ownedPotions.push(parts[0].trim());
     });
   }
 
-  // すべての所持アイテムをひとまとめにする
   const allOwned = [...ownedWeapons, ...ownedArmors, ...ownedPotions];
 
-  shopItems.forEach(item => {
+  // カテゴリで絞り込み
+  const filteredItems = shopItems.filter(item => {
+    if (currentCategory === 'all') return true;
+    return item.type === currentCategory;
+  });
+
+  filteredItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'item-card';
 
-    // ★ unique: true のアイテム（ポーションやストーリー含む）をすでに持っているかチェック
     const isAlreadyOwned = item.unique && allOwned.includes(item.name);
 
     let buttonHtml = "";
@@ -87,7 +100,7 @@ function fetchPlayerData() {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
-      action: "getPlayerData", // 既存のサーバー関数
+      action: "getPlayerData",
       name: loggedInUser
     })
   })
@@ -97,12 +110,10 @@ function fetchPlayerData() {
       playerCoins = data.coins;
       document.getElementById('player-coins').textContent = playerCoins;
       
-      // サーバーからインベントリデータも受け取る（すでに実装済みの getPlayerData を活用）
       if (data.inventory) {
         playerInventory = data.inventory;
       }
       
-      // 取得したデータをもとにショップ画面を再描画（購入済みボタンを反映）
       renderShop();
     } else {
       console.error(data.message);
@@ -117,14 +128,13 @@ function fetchPlayerData() {
 function buyItem(itemId, price) {
   const msgBox = document.getElementById('message-box');
   msgBox.textContent = "";
-  msgBox.style.color = "#e74c3c"; // エラー時は赤色
+  msgBox.style.color = "#e74c3c";
 
   if (playerCoins < price) {
     msgBox.textContent = "コインが足りません！";
     return;
   }
 
-  // サーバー（GAS）に購入リクエストを送る
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -137,10 +147,7 @@ function buyItem(itemId, price) {
   .then(res => res.json())
   .then(data => {
     if (data.status === "success") {
-      // 成功したらデータを再取得してコインと所持品リストを最新に更新する
       fetchPlayerData();
-      
-      // 成功メッセージを緑色で表示
       msgBox.style.color = "#2ecc71";
       msgBox.textContent = data.message;
     } else {
@@ -153,6 +160,6 @@ function buyItem(itemId, price) {
   });
 }
 
-// 初期化実行（最初は空で描画し、fetchPlayerData完了後に再描画する）
+// 初期化実行
 renderShop();
 fetchPlayerData();
