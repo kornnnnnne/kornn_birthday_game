@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <!-- ① 難易度選択画面（最初はここが表示される） -->
+  <!-- ① 難易度選択画面 -->
   <div id="difficulty-select-screen" class="game-card" style="text-align: center;">
     <h1>⚔️ モンスター討伐クエスト ⚔️</h1>
     <p class="description">挑む難易度を選んで、現れるモンスターと戦おう！</p>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <!-- ② バトル画面（戦闘開始時に表示される） -->
+  <!-- ② バトル画面 -->
   <div id="battle-screen" class="game-card" style="display: none; text-align: center;">
     <h1 id="enemy-title">⚔️ バトル開始 ⚔️</h1>
 
@@ -55,11 +55,17 @@
       バトルが始まった！
     </div>
 
-    <!-- コマンドパネル -->
+    <!-- コマンドパネル（通常） -->
     <div id="command-box" style="display: flex; justify-content: center; gap: 10px;">
       <button id="attack-btn" class="ctrl-btn" style="background-color: #e67e22;">攻撃する</button>
-      <button id="potion-btn" class="ctrl-btn" style="background-color: #27ae60;">ポーション (<span id="potion-count">0</span>)</button>
+      <button id="item-select-toggle-btn" class="ctrl-btn" style="background-color: #27ae60;">アイテムを使う</button>
       <button id="escape-btn" class="ctrl-btn back" style="background-color: #7f8c8d;">逃げる</button>
+    </div>
+
+    <!-- アイテム選択用領域（最初は非表示） -->
+    <div id="item-command-box" style="display: none; text-align: center;">
+      <div id="item-buttons-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px;"></div>
+      <button id="back-to-main-btn" class="ctrl-btn back" style="background-color: #7f8c8d;">もどる</button>
     </div>
 
     <!-- 勝利後用メニューに戻るボタン -->
