@@ -134,3 +134,25 @@ h1 {
 .sub-btn:hover {
   background: #cbd5e1;
 }
+
+/* ストーリーボタンのデフォルト（未開放・無効時） */
+.menu-btn.story-btn {
+  background-color: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* 所持していて開放された状態 */
+.menu-btn.story-btn.unlocked {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+  cursor: pointer;
+}
+
+.menu-btn.story-btn.unlocked:hover {
+  transform: translateY(-2px);
+  border-color: #d97706;
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.2);
+}
