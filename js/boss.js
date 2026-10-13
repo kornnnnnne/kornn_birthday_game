@@ -19,8 +19,27 @@ const ITEM_EFFECTS = {
   "伝説の鎧": { type: "defense", value: 500 }
 };
 
-// プレイヤーのステータス保持用
+// スキルマスター（レベル別・全14種）
+const SKILL_DATABASE = [
+  { id: "skill_1", name: "全力斬り", type: "attack", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (消費MP10)" },
+  { id: "skill_2", name: "ヒール", type: "heal", requiredLevel: 3, mpCost: 15, healValue: 300, desc: "HPを少量回復 (消費MP15)" },
+  { id: "skill_3", name: "フレイム", type: "magic", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "火の魔法攻撃 (消費MP20)" },
+  { id: "skill_4", name: "サンダー", type: "magic", requiredLevel: 8, mpCost: 25, multiplier: 3.4, desc: "雷の魔法攻撃 (消費MP25)" },
+  { id: "skill_5", name: "ブリザード", type: "magic", requiredLevel: 10, mpCost: 30, multiplier: 3.6, desc: "氷の魔法攻撃 (消費MP30)" },
+  { id: "skill_6", name: "黒・魔・導", type: "magic", requiredLevel: 15, mpCost: 50, multiplier: 4.0, desc: "ブラック・マジック！！ (消費MP50)" },
+  { id: "skill_7", name: "ハイヒール", type: "heal", requiredLevel: 16, mpCost: 50, healValue: 1000, desc: "HPを中量回復 (消費MP50)" },
+  { id: "skill_8", name: "滅びの爆裂疾風弾", type: "magic", requiredLevel: 20, mpCost: 70, multiplier: 5.0, desc: "滅びのバーストストリーム！！ (消費MP70)" },
+  { id: "skill_9", name: "メテオバースト", type: "magic", requiredLevel: 23, mpCost: 80, multiplier: 5.2, desc: "メテオバースト！ (消費MP80)" },
+  { id: "skill_10", name: "ダークフレア", type: "magic", requiredLevel: 25, mpCost: 100, multiplier: 5.5, desc: "漆黒の炎に抱かれて消えろ！ (消費MP100)" },
+  { id: "skill_11", name: "神の祈り", type: "heal", requiredLevel: 30, mpCost: 100, healValue: 2500, desc: "HPを多量回復 (消費MP100)" },
+  { id: "skill_12", name: "スターバースト・ストリーム", type: "attack", requiredLevel: 35, mpCost: 250, multiplier: 5.8, desc: "16連撃の攻撃 (消費MP250)" },
+  { id: "skill_13", name: "無限の剣製", type: "attack", requiredLevel: 40, mpCost: 300, multiplier: 6.0, desc: "アンリミテッド・ブレイドワークス (消費MP300)" },
+  { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", type: "magic", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" }
+];
+
+// プレイヤーのステータス保持用（レベルを追加）
 let playerStatus = {
+  level: 1,
   maxHp: 100,
   hp: 100,
   maxMp: 50,
@@ -60,10 +79,15 @@ function updateDisplay() {
   const playerHpPercent = (playerStatus.hp / playerStatus.maxHp) * 100;
   document.getElementById('player-hp-gauge').style.width = `${Math.max(0, playerHpPercent)}%`;
 
-  document.getElementById('player-current-mp').textContent = Math.max(0, playerStatus.mp);
-  document.getElementById('player-max-mp').textContent = playerStatus.maxMp;
-  const playerMpPercent = (playerStatus.mp / playerStatus.maxMp) * 100;
-  document.getElementById('player-mp-gauge').style.width = `${Math.max(0, playerMpPercent)}%`;
+  const curMpEl = document.getElementById('player-current-mp');
+  const maxMpEl = document.getElementById('player-max-mp');
+  const mpGaugeEl = document.getElementById('player-mp-gauge');
+  if (curMpEl) curMpEl.textContent = Math.max(0, playerStatus.mp);
+  if (maxMpEl) maxMpEl.textContent = playerStatus.maxMp;
+  if (mpGaugeEl) {
+    const playerMpPercent = (playerStatus.mp / playerStatus.maxMp) * 100;
+    mpGaugeEl.style.width = `${Math.max(0, playerMpPercent)}%`;
+  }
 }
 
 // サーバからステータスとインベントリを取得
@@ -82,6 +106,7 @@ function fetchPlayerData() {
       const s = data.statusData;
       const inv = data.inventoryData;
 
+      let baseLevel = Number(s.level) || 1; // ★ レベルの反映
       let baseAttack = Number(s.attack) || 20;
       let baseMagicAttack = Number(s.magicAttack) || 15;
       let baseDefense = Number(s.defense) || 10;
@@ -97,6 +122,7 @@ function fetchPlayerData() {
         if (effect && effect.type === "defense") baseDefense += effect.value;
       }
 
+      playerStatus.level = baseLevel;
       playerStatus.maxHp = baseHp;
       playerStatus.hp = baseHp;
       playerStatus.maxMp = baseMp;
@@ -120,7 +146,7 @@ function fetchPlayerData() {
   });
 }
 
-// ポーション文字列をパースするヘルパー（ストーリーアイテムなどの非戦闘用を除外することも可能）
+// ポーション文字列をパースするヘルパー
 function parsePotionInventory(potionsStr) {
   let result = {};
   if (!potionsStr) return result;
@@ -129,7 +155,6 @@ function parsePotionInventory(potionsStr) {
     if (parts.length === 2) {
       const name = parts[0].trim();
       const count = parseInt(parts[1]) || 0;
-      // ストーリー系アイテムを除外して戦闘用アイテムだけにする場合
       if (count > 0 && !name.includes("ストーリー")) {
         result[name] = count;
       }
@@ -161,7 +186,97 @@ function playerAttack() {
   setTimeout(bossTurn, 1200);
 }
 
+// ==========================
+// スキル関連の処理（レベル制限・非表示対応）
+// ==========================
+function showSkillSelect() {
+  const container = document.getElementById('skill-buttons-container');
+  if (!container) return;
+  container.innerHTML = "";
+
+  // レベルを満たしているスキルだけに絞り込む（使えない技は見えない）
+  const unlockedSkills = SKILL_DATABASE.filter(skill => playerStatus.level >= skill.requiredLevel);
+
+  if (unlockedSkills.length === 0) {
+    container.innerHTML = `<p style="font-size: 14px; color: #aaa; margin: 10px 0;">使えるスキルがまだありません (Lv.1〜)</p>`;
+  } else {
+    unlockedSkills.forEach(skill => {
+      const btn = document.createElement('button');
+      btn.className = 'ctrl-btn';
+
+      const isMpEnough = playerStatus.mp >= skill.mpCost;
+
+      if (!isMpEnough) {
+        btn.style.backgroundColor = '#555';
+        btn.style.color = '#ccc';
+        btn.disabled = true;
+        btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
+      } else {
+        btn.style.backgroundColor = '#9b59b6';
+        btn.style.color = '#fff';
+        btn.disabled = false;
+        btn.textContent = `${skill.name} (MP:${skill.mpCost})`;
+        
+        btn.addEventListener('click', () => {
+          useSkill(skill);
+        });
+      }
+
+      btn.title = skill.desc;
+      container.appendChild(btn);
+    });
+  }
+
+  document.getElementById('command-box').style.display = 'none';
+  document.getElementById('skill-command-box').style.display = 'block';
+}
+
+function hideSkillSelect() {
+  document.getElementById('skill-command-box').style.display = 'none';
+  document.getElementById('command-box').style.display = 'flex';
+}
+
+function useSkill(skill) {
+  if (playerStatus.mp < skill.mpCost) {
+    alert("MPが足りません！");
+    return;
+  }
+
+  playerStatus.mp -= skill.mpCost;
+  setButtonsEnabled(false);
+  hideSkillSelect();
+
+  // ★ 回復系スキルの処理
+  if (skill.type === "heal") {
+    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
+    updateDisplay();
+    addLog(`✨ スキル発動【${skill.name}】！ HPが ${skill.healValue} 回復した！`);
+    setTimeout(bossTurn, 1200);
+    return;
+  }
+
+  // ★ 攻撃・魔法系スキルの処理
+  let baseDmg = playerStatus.attack * skill.multiplier;
+  let damage = Math.max(1, Math.floor(baseDmg - Math.floor(boss.defense / 2)));
+  damage += Math.floor(Math.random() * 6) - 3;
+  damage = Math.max(1, damage);
+
+  boss.hp -= damage;
+  updateDisplay();
+  addLog(`✨ スキル発動【${skill.name}】！ ${boss.name} に ${damage} の大ダメージを与えた！`);
+
+  if (boss.hp <= 0) {
+    addLog(`🎉 ${boss.name} を討伐した！ 勝利！`);
+    endBattle(true);
+    return;
+  }
+
+  setTimeout(bossTurn, 1200);
+}
+
+// ==========================
 // アイテム選択画面を開く
+// ==========================
 function showItemSelect() {
   const itemNames = Object.keys(playerStatus.inventoryPotions);
   const availableItems = itemNames.filter(name => playerStatus.inventoryPotions[name] > 0);
@@ -184,42 +299,43 @@ function showItemSelect() {
     });
   }
 
-  // メインコマンドを隠してアイテム選択画面を表示
   document.getElementById('command-box').style.display = 'none';
   document.getElementById('item-command-box').style.display = 'block';
 }
 
-// アイテム選択画面からメインコマンドに戻る
 function hideItemSelect() {
   document.getElementById('item-command-box').style.display = 'none';
   document.getElementById('command-box').style.display = 'block';
 }
 
-// 個別のアイテムを使用する処理
 function useItem(itemName) {
   if (playerStatus.inventoryPotions[itemName] <= 0) {
     alert("アイテムが足りません！");
     return;
   }
 
-  // 所持数を減らす
+  if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
+    alert("HPはすでに満タンです！");
+    return;
+  }
+
   playerStatus.inventoryPotions[itemName]--;
 
-  // 効果の適用
-  let healAmount = 500;
-  if (itemName.includes("中級")) healAmount = 1000;
-  if (itemName.includes("上級")) healAmount = 2500;
+  if (itemName.includes("MPポーション")) {
+    const recoverMp = 50;
+    playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+    addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
+  } else {
+    let healAmount = 500;
+    if (itemName.includes("中級")) healAmount = 1000;
+    if (itemName.includes("上級")) healAmount = 2500;
+    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+    addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+  }
 
-  playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
   updateDisplay();
-
-  addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
-
-  // アイテム選択画面を隠す
   hideItemSelect();
   setButtonsEnabled(false);
-
-  // ボスのターンへ
   setTimeout(bossTurn, 1200);
 }
 
@@ -264,9 +380,11 @@ function bossTurn() {
 // ボタンの有効/無効切り替え
 function setButtonsEnabled(enabled) {
   const attackBtn = document.getElementById('attack-btn');
+  const skillToggleBtn = document.getElementById('skill-select-toggle-btn');
   const itemToggleBtn = document.getElementById('item-select-toggle-btn');
 
   if (attackBtn) attackBtn.disabled = !enabled;
+  if (skillToggleBtn) skillToggleBtn.disabled = !enabled;
   if (itemToggleBtn) itemToggleBtn.disabled = !enabled;
 }
 
@@ -274,6 +392,7 @@ function setButtonsEnabled(enabled) {
 function endBattle(isWin) {
   setButtonsEnabled(false);
   document.getElementById('command-box').style.display = 'none';
+  document.getElementById('skill-command-box').style.display = 'none';
   document.getElementById('item-command-box').style.display = 'none';
   const menuBtn = document.getElementById('to-menu-btn');
   if (menuBtn) menuBtn.style.display = 'block';
@@ -288,10 +407,14 @@ function endBattle(isWin) {
 // イベントリスナーの割り当て
 document.addEventListener('DOMContentLoaded', () => {
   const attackBtn = document.getElementById('attack-btn');
+  const skillToggleBtn = document.getElementById('skill-select-toggle-btn');
   const itemToggleBtn = document.getElementById('item-select-toggle-btn');
+  const backToMainFromSkillBtn = document.getElementById('back-to-main-from-skill-btn');
   const backToMainBtn = document.getElementById('back-to-main-btn');
 
   if (attackBtn) attackBtn.addEventListener('click', playerAttack);
+  if (skillToggleBtn) skillToggleBtn.addEventListener('click', showSkillSelect);
+  if (backToMainFromSkillBtn) backToMainFromSkillBtn.addEventListener('click', hideSkillSelect);
   if (itemToggleBtn) itemToggleBtn.addEventListener('click', showItemSelect);
   if (backToMainBtn) backToMainBtn.addEventListener('click', hideItemSelect);
 });
