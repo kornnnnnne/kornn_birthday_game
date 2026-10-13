@@ -5,14 +5,14 @@ if (!loggedInUser) {
   window.location.href = 'index.html';
 }
 
+document.getElementById('player-name').textContent = loggedInUser;
+
 // メニューに戻るボタン
 document.getElementById('back-menu-btn').addEventListener('click', () => {
   window.location.href = 'menu.html';
 });
 
-document.getElementById('player-name').textContent = loggedInUser;
-
-// アイテムのステータス上昇値マスター
+// 装備品のステータス上昇値マスター
 const ITEM_EFFECTS = {
   "銅の剣": { type: "attack", value: 10 },
   "鉄の剣": { type: "attack", value: 25 },
@@ -24,7 +24,15 @@ const ITEM_EFFECTS = {
   "伝説の鎧": { type: "defense", value: 500 }
 };
 
-// モンスターデータベース（各難易度3体ずつ）
+// スキルマスター（名前、必要レベル、消費MP、威力倍率、説明）
+const SKILL_DATABASE = [
+  { id: "skill_1", name: "全力斬り", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (Lv.1〜 / 消費MP10)" },
+  { id: "skill_2", name: "コーンビーム", requiredLevel: 3, mpCost: 15, multiplier: 2.2, desc: "トウモロコシの魔力を放つ強撃 (Lv.3〜 / 消費MP15)" },
+  { id: "skill_3", name: "連続斬り", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "素早い連続攻撃 (Lv.5〜 / 消費MP20)" },
+  { id: "skill_4", name: "グランドバースト", requiredLevel: 8, mpCost: 35, multiplier: 4.5, desc: "敵を一掃する大魔法 (Lv.8〜 / 消費MP35)" }
+];
+
+// モンスターデータベース
 const monsterDatabase = {
   easy: [
     { name: "スライム", hp: 40, maxHp: 40, attack: 12, defense: 4, rewardCoins: 15, rewardExp: 20 },
@@ -45,26 +53,28 @@ const monsterDatabase = {
 
 // プレイヤーのステータス & インベントリ保持用
 let playerStatus = {
+  level: 1,
   maxHp: 100,
   hp: 100,
+  maxMp: 50,
+  mp: 50,
   attack: 20,
   defense: 10,
   inventoryPotions: {}
 };
 
-// 現在出現している敵のオブジェクトと報酬
 let currentEnemy = null;
 let earnedCoins = 0;
 let earnedExp = 0;
 
-// ログ出力用関数
+// ログ出力用
 function addLog(message) {
   const logBox = document.getElementById('log-box');
   logBox.innerHTML += `<br>${message}`;
   logBox.scrollTop = logBox.scrollHeight;
 }
 
-// 画面のHPゲージや数値を更新する関数
+// 画面のHP・MPゲージや数値を更新
 function updateDisplay() {
   if (!currentEnemy) return;
 
@@ -74,14 +84,25 @@ function updateDisplay() {
   const enemyHpPercent = (currentEnemy.hp / currentEnemy.maxHp) * 100;
   document.getElementById('enemy-hp-gauge').style.width = `${Math.max(0, enemyHpPercent)}%`;
 
-  // プレイヤー
+  // プレイヤー HP
   document.getElementById('player-current-hp').textContent = Math.max(0, playerStatus.hp);
   document.getElementById('player-max-hp').textContent = playerStatus.maxHp;
   const playerHpPercent = (playerStatus.hp / playerStatus.maxHp) * 100;
   document.getElementById('player-hp-gauge').style.width = `${Math.max(0, playerHpPercent)}%`;
+
+  // プレイヤー MP
+  const curMpEl = document.getElementById('player-current-mp');
+  const maxMpEl = document.getElementById('player-max-mp');
+  const mpGaugeEl = document.getElementById('player-mp-gauge');
+  if (curMpEl) curMpEl.textContent = Math.max(0, playerStatus.mp);
+  if (maxMpEl) maxMpEl.textContent = playerStatus.maxMp;
+  if (mpGaugeEl) {
+    const playerMpPercent = (playerStatus.mp / playerStatus.maxMp) * 100;
+    mpGaugeEl.style.width = `${Math.max(0, playerMpPercent)}%`;
+  }
 }
 
-// サーバからステータスとインベントリ（装備やポーション等）を取得
+// サーバーからステータスとインベントリを取得
 function fetchPlayerData() {
   fetch(GAS_URL, {
     method: 'POST',
@@ -100,6 +121,7 @@ function fetchPlayerData() {
       let baseAttack = Number(s.attack) || 20;
       let baseDefense = Number(s.defense) || 10;
       let baseHp = Number(s.hp) || 100;
+      let baseMp = Number(s.mp) || 50;
 
       // 装備ボーナス加算
       if (inv.equippedWeapon && inv.equippedWeapon !== "なし") {
@@ -113,10 +135,11 @@ function fetchPlayerData() {
 
       playerStatus.maxHp = baseHp;
       playerStatus.hp = baseHp;
+      playerStatus.maxMp = baseMp;
+      playerStatus.mp = baseMp;
       playerStatus.attack = baseAttack;
       playerStatus.defense = baseDefense;
 
-      // 所持アイテムをパース（ストーリー系は除外）
       playerStatus.inventoryPotions = parsePotionInventory(inv.potions);
 
       fetchCoins();
@@ -131,7 +154,6 @@ function fetchPlayerData() {
   });
 }
 
-// ポーション文字列をパースするヘルパー
 function parsePotionInventory(potionsStr) {
   let result = {};
   if (!potionsStr) return result;
@@ -162,10 +184,9 @@ function fetchCoins() {
   });
 }
 
-// 初期化実行
 fetchPlayerData();
 
-// 難易度ボタンが押されたときの処理（バトル画面に切り替え）
+// 難易度選択
 document.querySelectorAll('.diff-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const diff = btn.getAttribute('data-diff');
@@ -175,7 +196,7 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
     const template = list[Math.floor(Math.random() * list.length)];
     currentEnemy = { ...template };
     earnedCoins = template.rewardCoins;
-    earnedExp = template.rewardExp; // 経験値も正しく保持
+    earnedExp = template.rewardExp;
 
     document.getElementById('difficulty-select-screen').style.display = 'none';
     document.getElementById('battle-screen').style.display = 'block';
@@ -188,7 +209,7 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
   });
 });
 
-// プレイヤーの攻撃ターン
+// 通常攻撃
 function playerAttack() {
   setButtonsEnabled(false);
 
@@ -209,7 +230,92 @@ function playerAttack() {
   setTimeout(enemyTurn, 1000);
 }
 
-// アイテム選択画面を開く
+// ==========================
+// スキル関連の処理
+// ==========================
+function showSkillSelect() {
+  const container = document.getElementById('skill-buttons-container');
+  container.innerHTML = "";
+
+  SKILL_DATABASE.forEach(skill => {
+    const btn = document.createElement('button');
+    btn.className = 'ctrl-btn';
+
+    // 1. レベルを満たしているかチェック
+    const isLevelEnough = playerStatus.level >= skill.requiredLevel;
+    // 2. MPが足りているかチェック
+    const isMpEnough = playerStatus.mp >= skill.mpCost;
+
+    if (!isLevelEnough) {
+      // レベル不足の場合：無効化（グレーアウト）して必要レベルを表示
+      btn.style.backgroundColor = '#444';
+      btn.style.color = '#888';
+      btn.style.cursor = 'not-allowed';
+      btn.disabled = true;
+      btn.textContent = `${skill.name} (要 Lv.${skill.requiredLevel})`;
+    } else if (!isMpEnough) {
+      // レベルは足りているがMP不足の場合
+      btn.style.backgroundColor = '#555';
+      btn.style.color = '#ccc';
+      btn.disabled = true;
+      btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
+    } else {
+      // レベルもMPも足りている場合：発動可能
+      btn.style.backgroundColor = '#9b59b6';
+      btn.style.color = '#fff';
+      btn.disabled = false;
+      btn.textContent = `${skill.name} (MP:${skill.mpCost})`;
+      
+      btn.addEventListener('click', () => {
+        useSkill(skill);
+      });
+    }
+
+    btn.title = skill.desc;
+    container.appendChild(btn);
+  });
+
+  document.getElementById('command-box').style.display = 'none';
+  document.getElementById('skill-command-box').style.display = 'block';
+}
+
+function hideSkillSelect() {
+  document.getElementById('skill-command-box').style.display = 'none';
+  document.getElementById('command-box').style.display = 'flex';
+}
+
+function useSkill(skill) {
+  if (playerStatus.mp < skill.mpCost) {
+    alert("MPが足りません！");
+    return;
+  }
+
+  playerStatus.mp -= skill.mpCost;
+  setButtonsEnabled(false);
+  hideSkillSelect();
+
+  // スキル攻撃力計算
+  let baseDmg = playerStatus.attack * skill.multiplier;
+  let damage = Math.max(1, Math.floor(baseDmg - Math.floor(currentEnemy.defense / 2)));
+  damage += Math.floor(Math.random() * 6) - 3;
+  damage = Math.max(1, damage);
+
+  currentEnemy.hp -= damage;
+  updateDisplay();
+  addLog(`✨ スキル発動【${skill.name}】！ ${currentEnemy.name} に ${damage} の大ダメージを与えた！`);
+
+  if (currentEnemy.hp <= 0) {
+    addLog(`🎉 ${currentEnemy.name} を討伐成功！`);
+    endBattle(true);
+    return;
+  }
+
+  setTimeout(enemyTurn, 1000);
+}
+
+// ==========================
+// アイテム関連の処理
+// ==========================
 function showItemSelect() {
   const itemNames = Object.keys(playerStatus.inventoryPotions);
   const availableItems = itemNames.filter(name => playerStatus.inventoryPotions[name] > 0);
@@ -237,35 +343,37 @@ function showItemSelect() {
   document.getElementById('item-command-box').style.display = 'block';
 }
 
-// アイテム選択画面からメインコマンドに戻る
 function hideItemSelect() {
   document.getElementById('item-command-box').style.display = 'none';
   document.getElementById('command-box').style.display = 'flex';
 }
 
-// 個別アイテム使用処理
 function useItem(itemName) {
   if (playerStatus.inventoryPotions[itemName] <= 0) {
     alert("アイテムが足りません！");
     return;
   }
 
-  if (playerStatus.hp >= playerStatus.maxHp) {
+  if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
     alert("HPはすでに満タンです！");
     return;
   }
 
   playerStatus.inventoryPotions[itemName]--;
 
-  let healAmount = 50;
-  if (itemName.includes("中級")) healAmount = 100;
-  if (itemName.includes("上級")) healAmount = 200;
+  if (itemName.includes("MPポーション")) {
+    const recoverMp = 50;
+    playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+    addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
+  } else {
+    let healAmount = 50;
+    if (itemName.includes("中級")) healAmount = 100;
+    if (itemName.includes("上級")) healAmount = 200;
+    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+    addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+  }
 
-  playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
   updateDisplay();
-
-  addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
-
   hideItemSelect();
   setButtonsEnabled(false);
   setTimeout(enemyTurn, 1000);
@@ -290,13 +398,15 @@ function enemyTurn() {
   setButtonsEnabled(true);
 }
 
-// ボタンの有効/無効切り替え
+// ボタン有効・無効切り替え
 function setButtonsEnabled(enabled) {
   const attackBtn = document.getElementById('attack-btn');
+  const skillToggleBtn = document.getElementById('skill-select-toggle-btn');
   const itemToggleBtn = document.getElementById('item-select-toggle-btn');
   const escapeBtn = document.getElementById('escape-btn');
 
   if (attackBtn) attackBtn.disabled = !enabled;
+  if (skillToggleBtn) skillToggleBtn.disabled = !enabled;
   if (itemToggleBtn) itemToggleBtn.disabled = !enabled;
   if (escapeBtn) escapeBtn.disabled = !enabled;
 }
@@ -305,11 +415,11 @@ function setButtonsEnabled(enabled) {
 function endBattle(isWin) {
   setButtonsEnabled(false);
   document.getElementById('command-box').style.display = 'none';
+  document.getElementById('skill-command-box').style.display = 'none';
   document.getElementById('item-command-box').style.display = 'none';
   document.getElementById('to-menu-btn').style.display = 'block';
 
   if (isWin) {
-    // 勝利時はGASにコインと経験値を同時に加算するリクエストを送る
     fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
@@ -336,7 +446,6 @@ function endBattle(isWin) {
   }
 }
 
-// 逃げる処理
 function escapeBattle() {
   if (confirm("本当に逃げますか？")) {
     window.location.href = 'menu.html';
@@ -345,6 +454,8 @@ function escapeBattle() {
 
 // イベントリスナー登録
 document.getElementById('attack-btn').addEventListener('click', playerAttack);
+document.getElementById('skill-select-toggle-btn').addEventListener('click', showSkillSelect);
+document.getElementById('back-to-main-from-skill-btn').addEventListener('click', hideSkillSelect);
 document.getElementById('item-select-toggle-btn').addEventListener('click', showItemSelect);
 document.getElementById('back-to-main-btn').addEventListener('click', hideItemSelect);
 document.getElementById('escape-btn').addEventListener('click', escapeBattle);
