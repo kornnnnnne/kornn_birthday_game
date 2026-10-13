@@ -45,19 +45,19 @@ const SKILL_DATABASE = [
 // モンスターデータベース
 const monsterDatabase = {
   easy: [
-    { name: "スライム", hp: 40, maxHp: 40, attack: 12, defense: 4, rewardCoins: 15, rewardExp: 20 },
-    { name: "おばけキノコ", hp: 50, maxHp: 50, attack: 15, defense: 5, rewardCoins: 20, rewardExp: 25 },
-    { name: "コウモリ", hp: 35, maxHp: 35, attack: 18, defense: 3, rewardCoins: 25, rewardExp: 30 }
+    { name: "スライム", hp: 100, maxHp: 100, attack: 12, defense: 10, rewardCoins: 15, rewardExp: 80 },
+    { name: "おばけキノコ", hp: 150, maxHp: 150, attack: 18, defense: 20, rewardCoins: 20, rewardExp: 100 },
+    { name: "コウモリ", hp: 200, maxHp: 200, attack: 20, defense:20, rewardCoins: 25, rewardExp: 120 }
   ],
   normal: [
-    { name: "ゴブリン", hp: 80, maxHp: 80, attack: 25, defense: 8, rewardCoins: 40, rewardExp: 50 },
-    { name: "オーク", hp: 100, maxHp: 100, attack: 30, defense: 10, rewardCoins: 55, rewardExp: 65 },
-    { name: "スケルトン", hp: 90, maxHp: 90, attack: 35, defense: 7, rewardCoins: 70, rewardExp: 80 }
+    { name: "ゴブリン", hp: 700, maxHp: 700, attack: 250, defense: 250, rewardCoins: 40, rewardExp: 500 },
+    { name: "オーク", hp: 800, maxHp: 800, attack: 300, defense: 250, rewardCoins: 55, rewardExp: 650 },
+    { name: "スケルトン", hp: 900, maxHp: 900, attack: 350, defense: 250, rewardCoins: 70, rewardExp: 800 }
   ],
   hard: [
-    { name: "ドラゴン", hp: 150, maxHp: 150, attack: 45, defense: 15, rewardCoins: 100, rewardExp: 120 },
-    { name: "ゴーレム", hp: 180, maxHp: 180, attack: 40, defense: 20, rewardCoins: 130, rewardExp: 150 },
-    { name: "ダークナイト", hp: 160, maxHp: 160, attack: 50, defense: 12, rewardCoins: 160, rewardExp: 180 }
+    { name: "ドラゴン", hp: 4000, maxHp: 4000, attack: 1000, defense: 400, rewardCoins: 100, rewardExp: 2000 },
+    { name: "ゴーレム", hp: 5000, maxHp: 5000, attack: 1200, defense: 420, rewardCoins: 130, rewardExp: 2000 },
+    { name: "ダークナイト", hp: 5000, maxHp: 5000, attack: 1500, defense: 500, rewardCoins: 160, rewardExp: 2500 }
   ]
 };
 
