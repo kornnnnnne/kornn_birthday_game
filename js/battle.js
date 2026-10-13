@@ -24,22 +24,22 @@ const ITEM_EFFECTS = {
   "伝説の鎧": { type: "defense", value: 500 }
 };
 
-// スキルマスター（名前、必要レベル、消費MP、威力倍率、説明）
+// スキルマスター（type: "attack" または "heal" を設定）
 const SKILL_DATABASE = [
-  { id: "skill_1", name: "全力斬り", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (消費MP10)" },
-  { id: "skill_2", name: "ヒール", requiredLevel: 3, mpCost: 15, multiplier: 2.2, desc: "少量回復 (消費MP15)" },
-  { id: "skill_3", name: "フレイム", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "火の魔法攻撃 (消費MP20)" },
-  { id: "skill_4", name: "サンダー", requiredLevel: 8, mpCost: 25, multiplier: 3.4, desc: "雷の魔法攻撃 (消費MP25)" },
-  { id: "skill_5", name: "ブリザード", requiredLevel: 10, mpCost: 30, multiplier: 3.6, desc: "氷の魔法攻撃 (消費MP30)" },
-  { id: "skill_6", name: "黒・魔・導", requiredLevel: 15, mpCost: 50, multiplier: 4.0, desc: "ブラック・マジック！！ (消費MP50)" },
-  { id: "skill_7", name: "ハイヒール", requiredLevel: 16, mpCost: 50, multiplier: 3.0, desc: "中量回復 (消費MP50)" },
-  { id: "skill_8", name: "滅びの爆裂疾風弾", requiredLevel: 20, mpCost: 70, multiplier: 5.0, desc: "滅びのバーストストリーム！！ (消費MP70)" },
-  { id: "skill_9", name: "メテオバースト", requiredLevel: 23, mpCost: 80, multiplier: 5.2, desc: "メテオバースト！ (消費MP80)" },
-  { id: "skill_10", name: "ダークフレア", requiredLevel: 25, mpCost: 100, multiplier: 5.5, desc: "漆黒の炎に抱かれて消えろ！ (消費MP100)" },
-  { id: "skill_11", name: "神の祈り", requiredLevel: 30, mpCost: 100, multiplier: 3.0, desc: "多量回復 (消費MP100)" },
-  { id: "skill_12", name: "スターバースト・ストリーム", requiredLevel: 35, mpCost: 250, multiplier: 5.8, desc: "16連撃の攻撃 (消費MP250)" },
-  { id: "skill_13", name: "無限の剣製", requiredLevel: 40, mpCost: 300, multiplier: 6.0, desc: " アンリミテッド・ブレイドワークス(消費MP300)" },
-  { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" },
+  { id: "skill_1", name: "全力斬り", type: "attack", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (消費MP10)" },
+  { id: "skill_2", name: "ヒール", type: "heal", requiredLevel: 3, mpCost: 15, healValue: 50, desc: "HPを少量回復 (消費MP15)" },
+  { id: "skill_3", name: "フレイム", type: "magic", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "火の魔法攻撃 (消費MP20)" },
+  { id: "skill_4", name: "サンダー", type: "magic", requiredLevel: 8, mpCost: 25, multiplier: 3.4, desc: "雷の魔法攻撃 (消費MP25)" },
+  { id: "skill_5", name: "ブリザード", type: "magic", requiredLevel: 10, mpCost: 30, multiplier: 3.6, desc: "氷の魔法攻撃 (消費MP30)" },
+  { id: "skill_6", name: "黒・魔・導", type: "magic", requiredLevel: 15, mpCost: 50, multiplier: 4.0, desc: "ブラック・マジック！！ (消費MP50)" },
+  { id: "skill_7", name: "ハイヒール", type: "heal", requiredLevel: 16, mpCost: 50, healValue: 120, desc: "HPを中量回復 (消費MP50)" },
+  { id: "skill_8", name: "滅びの爆裂疾風弾", type: "magic", requiredLevel: 20, mpCost: 70, multiplier: 5.0, desc: "滅びのバーストストリーム！！ (消費MP70)" },
+  { id: "skill_9", name: "メテオバースト", type: "magic", requiredLevel: 23, mpCost: 80, multiplier: 5.2, desc: "メテオバースト！ (消費MP80)" },
+  { id: "skill_10", name: "ダークフレア", type: "magic", requiredLevel: 25, mpCost: 100, multiplier: 5.5, desc: "漆黒の炎に抱かれて消えろ！ (消費MP100)" },
+  { id: "skill_11", name: "神の祈り", type: "heal", requiredLevel: 30, mpCost: 100, healValue: 300, desc: "HPを多量回復 (消費MP100)" },
+  { id: "skill_12", name: "スターバースト・ストリーム", type: "attack", requiredLevel: 35, mpCost: 250, multiplier: 5.8, desc: "16連撃の攻撃 (消費MP250)" },
+  { id: "skill_13", name: "無限の剣製", type: "attack", requiredLevel: 40, mpCost: 300, multiplier: 6.0, desc: "アンリミテッド・ブレイドワークス (消費MP300)" },
+  { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", type: "magic", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" }
 ];
 
 // モンスターデータベース
@@ -128,6 +128,7 @@ function fetchPlayerData() {
       const s = data.statusData;
       const inv = data.inventoryData;
 
+      let baseLevel = Number(s.level) || 1; // ★ レベルの反映
       let baseAttack = Number(s.attack) || 20;
       let baseDefense = Number(s.defense) || 10;
       let baseHp = Number(s.hp) || 100;
@@ -143,6 +144,7 @@ function fetchPlayerData() {
         if (effect && effect.type === "defense") baseDefense += effect.value;
       }
 
+      playerStatus.level = baseLevel;
       playerStatus.maxHp = baseHp;
       playerStatus.hp = baseHp;
       playerStatus.maxMp = baseMp;
@@ -247,7 +249,7 @@ function showSkillSelect() {
   const container = document.getElementById('skill-buttons-container');
   container.innerHTML = "";
 
-  // プレイヤーのレベルを満たしているスキルだけに絞り込む
+  // プレイヤーのレベルを満たしているスキルだけに絞り込む（使えない技は見えない）
   const unlockedSkills = SKILL_DATABASE.filter(skill => playerStatus.level >= skill.requiredLevel);
 
   if (unlockedSkills.length === 0) {
@@ -260,13 +262,13 @@ function showSkillSelect() {
       const isMpEnough = playerStatus.mp >= skill.mpCost;
 
       if (!isMpEnough) {
-        // レベルは足りているがMP不足の場合（押せないようにして表示）
+        // MP不足の場合（押せない状態で表示）
         btn.style.backgroundColor = '#555';
         btn.style.color = '#ccc';
         btn.disabled = true;
         btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
       } else {
-        // レベルもMPも足りている場合（通常通り使える）
+        // 発動可能な場合
         btn.style.backgroundColor = '#9b59b6';
         btn.style.color = '#fff';
         btn.disabled = false;
@@ -301,7 +303,16 @@ function useSkill(skill) {
   setButtonsEnabled(false);
   hideSkillSelect();
 
-  // スキル攻撃力計算
+  // ★ 回復系スキルの処理
+  if (skill.type === "heal") {
+    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
+    updateDisplay();
+    addLog(`✨ スキル発動【${skill.name}】！ HPが ${skill.healValue} 回復した！`);
+    setTimeout(enemyTurn, 1000);
+    return;
+  }
+
+  // ★ 攻撃・魔法系スキルの処理
   let baseDmg = playerStatus.attack * skill.multiplier;
   let damage = Math.max(1, Math.floor(baseDmg - Math.floor(currentEnemy.defense / 2)));
   damage += Math.floor(Math.random() * 6) - 3;
