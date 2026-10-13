@@ -66,6 +66,7 @@ function fetchStatusAndInventory() {
         // サーバーから次の必要EXPが届かない場合の計算式（例: 現在レベル * 100）
         const requiredExp = s.nextExp || (currentLevel * 100);
         nextExpEl.textContent = requiredExp;
+      }
 
       // 基本ステータス反映
       document.getElementById('stat-hp').textContent = s.hp;
