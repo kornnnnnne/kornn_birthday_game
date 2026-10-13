@@ -19,8 +19,8 @@ const slotMsgEl = document.getElementById('slot-message');
 function goToMenu() {
   window.location.href = 'menu.html';
 }
-backMenuBtn.addEventListener('click', goToMenu);
-backBtn.addEventListener('click', goToMenu);
+if (backMenuBtn) backMenuBtn.addEventListener('click', goToMenu);
+if (backBtn) backBtn.addEventListener('click', goToMenu);
 
 // ページ読み込み時に現在のコインを取得して表示する
 function fetchUserCoins() {
@@ -70,7 +70,7 @@ spinBtn.addEventListener('click', () => {
     spinBtn.disabled = false;
 
     if (data.status === "success") {
-      // 実際の出目を反映
+      // 実際の出目を反映（左から順番）
       reel1El.textContent = data.reels[0];
       reel2El.textContent = data.reels[1];
       reel3El.textContent = data.reels[2];
@@ -79,20 +79,31 @@ spinBtn.addEventListener('click', () => {
         coinDisplay.textContent = data.totalCoins;
       }
 
-      // ★ アラートを出さず、画面上のメッセージ欄に文字で結果を表示する
+      // 当たり・ハズレ、およびフィーバー状態に応じたメッセージ表示
       if (data.payout > 0) {
-        slotMsgEl.style.color = "#2ecc71"; // 緑色（当たり）
+        // 大当たり（セブンやダイヤなど）の場合は特別な色にすることも可能
+        if (data.reels[0] === "7️⃣" || data.reels[0] === "💎") {
+          slotMsgEl.style.color = "#f1c40f"; // ゴールド（神引き・高額配当）
+        } else {
+          slotMsgEl.style.color = "#2ecc71"; // 緑色（通常当たり）
+        }
         slotMsgEl.innerHTML = `${data.message}<br>🎉 <strong>+${data.payout} コイン獲得！</strong>`;
       } else {
         slotMsgEl.style.color = "#e74c3c"; // 赤色（はずれ）
         slotMsgEl.textContent = data.message;
       }
+
+      // ★ フィーバー中の場合は画面全体の雰囲気を変えるなどの演出を追加できます
+      if (data.feverRemaining > 0) {
+        slotMsgEl.style.color = "#e67e22"; // オレンジ（フィーバー中）
+      }
+
     } else {
       // コイン不足などのエラー
       alert(data.message);
       slotMsgEl.textContent = data.message;
       slotMsgEl.style.color = "#e74c3c";
-      fetchUserCoins(); // コイン表示を最新に直す
+      fetchUserCoins();
     }
   })
   .catch(err => {
