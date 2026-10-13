@@ -26,10 +26,20 @@ const ITEM_EFFECTS = {
 
 // スキルマスター（名前、必要レベル、消費MP、威力倍率、説明）
 const SKILL_DATABASE = [
-  { id: "skill_1", name: "全力斬り", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (Lv.1〜 / 消費MP10)" },
-  { id: "skill_2", name: "コーンビーム", requiredLevel: 3, mpCost: 15, multiplier: 2.2, desc: "トウモロコシの魔力を放つ強撃 (Lv.3〜 / 消費MP15)" },
-  { id: "skill_3", name: "連続斬り", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "素早い連続攻撃 (Lv.5〜 / 消費MP20)" },
-  { id: "skill_4", name: "グランドバースト", requiredLevel: 8, mpCost: 35, multiplier: 4.5, desc: "敵を一掃する大魔法 (Lv.8〜 / 消費MP35)" }
+  { id: "skill_1", name: "全力斬り", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (消費MP10)" },
+  { id: "skill_2", name: "ヒール", requiredLevel: 3, mpCost: 15, multiplier: 2.2, desc: "少量回復 (消費MP15)" },
+  { id: "skill_3", name: "フレイム", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "火の魔法攻撃 (消費MP20)" },
+  { id: "skill_4", name: "サンダー", requiredLevel: 8, mpCost: 25, multiplier: 3.4, desc: "雷の魔法攻撃 (消費MP25)" },
+  { id: "skill_5", name: "ブリザード", requiredLevel: 10, mpCost: 30, multiplier: 3.6, desc: "氷の魔法攻撃 (消費MP30)" },
+  { id: "skill_6", name: "黒・魔・導", requiredLevel: 15, mpCost: 50, multiplier: 4.0, desc: "ブラック・マジック！！ (消費MP50)" },
+  { id: "skill_7", name: "ハイヒール", requiredLevel: 16, mpCost: 50, multiplier: 3.0, desc: "中量回復 (消費MP50)" },
+  { id: "skill_8", name: "滅びの爆裂疾風弾", requiredLevel: 20, mpCost: 70, multiplier: 5.0, desc: "滅びのバーストストリーム！！ (消費MP70)" },
+  { id: "skill_9", name: "メテオバースト", requiredLevel: 23, mpCost: 80, multiplier: 5.2, desc: "メテオバースト！ (消費MP80)" },
+  { id: "skill_10", name: "ダークフレア", requiredLevel: 25, mpCost: 100, multiplier: 5.5, desc: "漆黒の炎に抱かれて消えろ！ (消費MP100)" },
+  { id: "skill_11", name: "神の祈り", requiredLevel: 30, mpCost: 100, multiplier: 3.0, desc: "多量回復 (消費MP100)" },
+  { id: "skill_12", name: "スターバースト・ストリーム", requiredLevel: 35, mpCost: 250, multiplier: 5.8, desc: "16連撃の攻撃 (消費MP250)" },
+  { id: "skill_13", name: "無限の剣製", requiredLevel: 40, mpCost: 300, multiplier: 6.0, desc: " アンリミテッド・ブレイドワークス(消費MP300)" },
+  { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" },
 ];
 
 // モンスターデータベース
@@ -237,43 +247,40 @@ function showSkillSelect() {
   const container = document.getElementById('skill-buttons-container');
   container.innerHTML = "";
 
-  SKILL_DATABASE.forEach(skill => {
-    const btn = document.createElement('button');
-    btn.className = 'ctrl-btn';
+  // プレイヤーのレベルを満たしているスキルだけに絞り込む
+  const unlockedSkills = SKILL_DATABASE.filter(skill => playerStatus.level >= skill.requiredLevel);
 
-    // 1. レベルを満たしているかチェック
-    const isLevelEnough = playerStatus.level >= skill.requiredLevel;
-    // 2. MPが足りているかチェック
-    const isMpEnough = playerStatus.mp >= skill.mpCost;
+  if (unlockedSkills.length === 0) {
+    container.innerHTML = `<p style="font-size: 14px; color: #aaa; margin: 10px 0;">使えるスキルがまだありません (Lv.1〜)</p>`;
+  } else {
+    unlockedSkills.forEach(skill => {
+      const btn = document.createElement('button');
+      btn.className = 'ctrl-btn';
 
-    if (!isLevelEnough) {
-      // レベル不足の場合：無効化（グレーアウト）して必要レベルを表示
-      btn.style.backgroundColor = '#444';
-      btn.style.color = '#888';
-      btn.style.cursor = 'not-allowed';
-      btn.disabled = true;
-      btn.textContent = `${skill.name} (要 Lv.${skill.requiredLevel})`;
-    } else if (!isMpEnough) {
-      // レベルは足りているがMP不足の場合
-      btn.style.backgroundColor = '#555';
-      btn.style.color = '#ccc';
-      btn.disabled = true;
-      btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
-    } else {
-      // レベルもMPも足りている場合：発動可能
-      btn.style.backgroundColor = '#9b59b6';
-      btn.style.color = '#fff';
-      btn.disabled = false;
-      btn.textContent = `${skill.name} (MP:${skill.mpCost})`;
-      
-      btn.addEventListener('click', () => {
-        useSkill(skill);
-      });
-    }
+      const isMpEnough = playerStatus.mp >= skill.mpCost;
 
-    btn.title = skill.desc;
-    container.appendChild(btn);
-  });
+      if (!isMpEnough) {
+        // レベルは足りているがMP不足の場合（押せないようにして表示）
+        btn.style.backgroundColor = '#555';
+        btn.style.color = '#ccc';
+        btn.disabled = true;
+        btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
+      } else {
+        // レベルもMPも足りている場合（通常通り使える）
+        btn.style.backgroundColor = '#9b59b6';
+        btn.style.color = '#fff';
+        btn.disabled = false;
+        btn.textContent = `${skill.name} (MP:${skill.mpCost})`;
+        
+        btn.addEventListener('click', () => {
+          useSkill(skill);
+        });
+      }
+
+      btn.title = skill.desc;
+      container.appendChild(btn);
+    });
+  }
 
   document.getElementById('command-box').style.display = 'none';
   document.getElementById('skill-command-box').style.display = 'block';
