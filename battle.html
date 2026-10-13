@@ -39,6 +39,11 @@
         <div style="width: 120px; background: #555; height: 12px; border-radius: 6px; overflow: hidden; margin: 0 auto;">
           <div id="player-hp-gauge" style="width: 100%; background: #2ecc71; height: 100%; transition: width 0.3s;"></div>
         </div>
+        <!-- ★ MP表示を追加 -->
+        <p style="margin: 0 0 3px 0;">MP: <span id="player-current-mp">50</span> / <span id="player-max-mp">50</span></p>
+        <div style="width: 120px; background: #555; height: 10px; border-radius: 5px; overflow: hidden; margin: 0 auto;">
+          <div id="player-mp-gauge" style="width: 100%; background: #3498db; height: 100%; transition: width 0.3s;"></div>
+        </div>
       </div>
       <!-- 敵 -->
       <div>
@@ -58,8 +63,15 @@
     <!-- コマンドパネル（通常） -->
     <div id="command-box" style="display: flex; justify-content: center; gap: 10px;">
       <button id="attack-btn" class="ctrl-btn" style="background-color: #e67e22;">攻撃する</button>
+      <button id="skill-select-toggle-btn" class="ctrl-btn" style="background-color: #9b59b6;">スキルを使う</button>
       <button id="item-select-toggle-btn" class="ctrl-btn" style="background-color: #27ae60;">アイテムを使う</button>
       <button id="escape-btn" class="ctrl-btn back" style="background-color: #7f8c8d;">逃げる</button>
+    </div>
+
+    <!-- スキル選択用領域（最初は非表示） -->
+    <div id="skill-command-box" style="display: none; text-align: center;">
+      <div id="skill-buttons-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px;"></div>
+      <button id="back-to-main-from-skill-btn" class="ctrl-btn back" style="background-color: #7f8c8d;">もどる</button>
     </div>
 
     <!-- アイテム選択用領域（最初は非表示） -->
