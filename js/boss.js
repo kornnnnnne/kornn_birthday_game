@@ -343,7 +343,7 @@ function useItem(itemName) {
 function bossTurn() {
   const randomVal = Math.floor(Math.random() * 10);
 
-  if (randomVal < 6) {
+  if (randomVal < 3) {
     let damage = Math.max(1, boss.attack - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 4) - 2;
     damage = Math.max(1, damage);
@@ -352,8 +352,53 @@ function bossTurn() {
     updateDisplay();
     addLog(`⚠️ ${boss.name} の攻撃！ あなたは ${damage} のダメージを受けた！`);
 
-  } else if (randomVal < 9) {
-    let damage = Math.max(1, Math.floor(boss.attack * 1.2) - Math.floor(playerStatus.defense / 2));
+  } else if (randomVal < 4) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
+
+    playerStatus.hp -= damage;
+    updateDisplay();
+    addLog(`🔥 ${boss.name} はラーの翼神竜を召喚！ゴッドブレイズキャノン！ ${damage} のダメージを受けた！`);
+
+  }else if (randomVal < 5) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.5) - Math.floor(playerStatus.defense / 2));
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
+
+    playerStatus.hp -= damage;
+    updateDisplay();
+    addLog(`🔥 ${boss.name} はオシリスの天空龍を召喚！サンダーフォース！ ${damage} のダメージを受けた！`);
+
+  }else if (randomVal < 6) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
+
+    playerStatus.hp -= damage;
+    updateDisplay();
+    addLog(`🔥 ${boss.name} はオベリスクの巨神兵を召喚！ゴッドハンドクラッシャー！ ${damage} のダメージを受けた！`);
+
+  }else if (randomVal < 7) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
+
+    playerStatus.hp -= damage;
+    updateDisplay();
+    addLog(`🔥 ${boss.name} のヘルブリザード！ ${damage} のダメージを受けた！`);
+
+  }else if (randomVal < 8) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.1) - Math.floor(playerStatus.defense / 2));
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
+
+    playerStatus.hp -= damage;
+    updateDisplay();
+    addLog(`🔥 ${boss.name} のリーフストーム！ ${damage} のダメージを受けた！`);
+
+  }else if (randomVal < 9) {
+    let damage = Math.max(1, Math.floor(boss.attack * 1.6) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
 
@@ -362,7 +407,7 @@ function bossTurn() {
     addLog(`🔥 ${boss.name} のクリムゾンフレア！ ${damage} のダメージを受けた！`);
 
   } else {
-    let heal = 1000;
+    let heal = 4000;
     boss.hp = Math.min(boss.maxHp, boss.hp + heal);
     updateDisplay();
     addLog(`✨ ${boss.name} はこーんをたべて、HPを ${heal} 回復した！`);
