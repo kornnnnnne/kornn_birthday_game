@@ -322,7 +322,7 @@ function useItem(itemName) {
   playerStatus.inventoryPotions[itemName]--;
 
   if (itemName.includes("MPポーション")) {
-    const recoverMp = 50;
+    const recoverMp = 200;
     playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
     addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
   } else {
