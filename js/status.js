@@ -74,9 +74,7 @@ function fetchStatusAndInventory() {
       document.getElementById('stat-hp').textContent = s.hp;
       document.getElementById('stat-mp').textContent = s.mp;
       document.getElementById('stat-attack').textContent = s.attack;
-      document.getElementById('stat-magicAttack').textContent = s.magicAttack;
       document.getElementById('stat-defense').textContent = s.defense;
-      document.getElementById('stat-magicDefense').textContent = s.magicDefense;
 
       // 装備ボーナスの計算と表示
       let bonusAttack = 0;
