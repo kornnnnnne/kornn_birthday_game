@@ -47,7 +47,7 @@ const monsterDatabase = {
   easy: [
     { name: "スライム", hp: 100, maxHp: 100, attack: 12, defense: 10, rewardCoins: 15, rewardExp: 80 },
     { name: "おばけキノコ", hp: 150, maxHp: 150, attack: 18, defense: 20, rewardCoins: 20, rewardExp: 100 },
-    { name: "コウモリ", hp: 200, maxHp: 200, attack: 20, defense:20, rewardCoins: 25, rewardExp: 120 }
+    { name: "コウモリ", hp: 200, maxHp: 200, attack: 20, defense: 20, rewardCoins: 25, rewardExp: 120 }
   ],
   normal: [
     { name: "ゴブリン", hp: 700, maxHp: 700, attack: 250, defense: 250, rewardCoins: 40, rewardExp: 500 },
@@ -128,7 +128,7 @@ function fetchPlayerData() {
       const s = data.statusData;
       const inv = data.inventoryData;
 
-      let baseLevel = Number(s.level) || 1; // ★ レベルの反映
+      let baseLevel = Number(s.level) || 1;
       let baseAttack = Number(s.attack) || 20;
       let baseDefense = Number(s.defense) || 10;
       let baseHp = Number(s.hp) || 100;
@@ -249,7 +249,6 @@ function showSkillSelect() {
   const container = document.getElementById('skill-buttons-container');
   container.innerHTML = "";
 
-  // プレイヤーのレベルを満たしているスキルだけに絞り込む（使えない技は見えない）
   const unlockedSkills = SKILL_DATABASE.filter(skill => playerStatus.level >= skill.requiredLevel);
 
   if (unlockedSkills.length === 0) {
@@ -262,13 +261,11 @@ function showSkillSelect() {
       const isMpEnough = playerStatus.mp >= skill.mpCost;
 
       if (!isMpEnough) {
-        // MP不足の場合（押せない状態で表示）
         btn.style.backgroundColor = '#555';
         btn.style.color = '#ccc';
         btn.disabled = true;
         btn.textContent = `${skill.name} (MP不足: ${skill.mpCost})`;
       } else {
-        // 発動可能な場合
         btn.style.backgroundColor = '#9b59b6';
         btn.style.color = '#fff';
         btn.disabled = false;
@@ -303,7 +300,6 @@ function useSkill(skill) {
   setButtonsEnabled(false);
   hideSkillSelect();
 
-  // ★ 回復系スキルの処理
   if (skill.type === "heal") {
     playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
     updateDisplay();
@@ -312,7 +308,6 @@ function useSkill(skill) {
     return;
   }
 
-  // ★ 攻撃・魔法系スキルの処理
   let baseDmg = playerStatus.attack * skill.multiplier;
   let damage = Math.max(1, Math.floor(baseDmg - Math.floor(currentEnemy.defense / 2)));
   damage += Math.floor(Math.random() * 6) - 3;
@@ -372,28 +367,64 @@ function useItem(itemName) {
     return;
   }
 
-  if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
-    alert("HPはすでに満タンです！");
-    return;
-  }
+  if (itemName.includes("爆薬")) {
+    playerStatus.inventoryPotions[itemName]--;
+    
+    let damage = 100;
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
 
-  playerStatus.inventoryPotions[itemName]--;
+    const randomdamage = Math.floor(Math.random() * 100);
+    if (randomdamage == 0) {
+      damage = 9999999;
+    }
+  
+    currentEnemy.hp -= damage;
+    if (currentEnemy.hp <= 0) {
+      currentEnemy.hp = 1; // 一撃で即死させずに残す調整（必要に応じて 0 以下で討伐判定にしてもOK）
+    }
+    updateDisplay();
+    addLog(`${itemName} を使った！ ${currentEnemy.name} に ${damage} のダメージを与えた！`);
 
-  if (itemName.includes("MPポーション")) {
-    const recoverMp = 50;
-    playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
-    addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
   } else {
-    let healAmount = 50;
-    if (itemName.includes("中級")) healAmount = 100;
-    if (itemName.includes("上級")) healAmount = 200;
-    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
-    addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+    if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP") && !itemName.includes("コーン茶")) {
+      alert("HPはすでに満タンです！");
+      return;
+    }
+
+    playerStatus.inventoryPotions[itemName]--;
+
+    if (itemName.includes("MPポーション")) {
+      const recoverMp = 200;
+      playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+      addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
+    } else if (itemName.includes("コーン茶")) {
+      let healAmount = 400;
+      const recoverMp = 200;
+      playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+      playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+      addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！MPが ${recoverMp} 回復した！`);
+    } else {
+      let healAmount = 50;
+      if (itemName.includes("願いの雫")) healAmount = 10;
+      if (itemName.includes("中級")) healAmount = 100;
+      if (itemName.includes("上級")) healAmount = 200;
+      playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+      addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+    }
   }
 
   updateDisplay();
   hideItemSelect();
   setButtonsEnabled(false);
+
+  // 爆薬などで敵のHPが0以下になった場合の討伐判定
+  if (currentEnemy.hp <= 0) {
+    addLog(`🎉 ${currentEnemy.name} を討伐成功！`);
+    endBattle(true);
+    return;
+  }
+
   setTimeout(enemyTurn, 1000);
 }
 
