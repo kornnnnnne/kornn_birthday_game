@@ -28,24 +28,33 @@ function fetchPlayerMenuData() {
     console.error("コイン情報の取得に失敗しました:", err);
   });
 
-  // ★ インベントリ（所持アイテム）情報の取得を追加！
+// ステータス・インベントリ・称号情報の取得
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
-      action: "getStatusAndInventory", // またはインベントリが取れる既存のアクション
+      action: "getStatusAndInventory", 
       name: loggedInUser
     })
   })
   .then(res => res.json())
   .then(data => {
-    if (data.status === "success" && data.inventoryData) {
-      // ストーリーの開放チェックを実行
-      checkStoryUnlock(data.inventoryData.potions);
+    if (data.status === "success") {
+      // 1. 既存のインベントリ（ポーション等）のチェック
+      if (data.inventoryData) {
+        checkStoryUnlock(data.inventoryData.potions);
+      }
+      
+      // ★ 2. 称号（UsersシートのD列）のチェックを追加！
+      // ※ statusData や 별도의プロパティとして称号を返すようにGAS側で調整、または専用の取得関数を通す場合
+      // 下記はdata.titleなどに称号が入ってくる場合の処理例です
+      if (data.title && data.title !== "なし") {
+        unlockSpecialRewards(data.title);
+      }
     }
   })
   .catch(err => {
-    console.error("インベントリ情報の取得に失敗しました:", err);
+    console.error("データの取得に失敗しました:", err);
   });
 }
 
