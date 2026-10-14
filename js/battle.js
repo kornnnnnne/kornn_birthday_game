@@ -24,19 +24,19 @@ const ITEM_EFFECTS = {
   "伝説の鎧": { type: "defense", value: 500 }
 };
 
-// スキルマスター（type: "attack" または "heal" を設定）
+// スキルマスター（レベル別・全14種）
 const SKILL_DATABASE = [
   { id: "skill_1", name: "全力斬り", type: "attack", requiredLevel: 1, mpCost: 10, multiplier: 1.5, desc: "通常より少し強い物理攻撃 (消費MP10)" },
-  { id: "skill_2", name: "ヒール", type: "heal", requiredLevel: 3, mpCost: 15, healValue: 50, desc: "HPを少量回復 (消費MP15)" },
+  { id: "skill_2", name: "ヒール", type: "heal", requiredLevel: 3, mpCost: 15, healValue: 300, desc: "HPを少量回復 (消費MP15)" },
   { id: "skill_3", name: "フレイム", type: "magic", requiredLevel: 5, mpCost: 20, multiplier: 3.0, desc: "火の魔法攻撃 (消費MP20)" },
   { id: "skill_4", name: "サンダー", type: "magic", requiredLevel: 8, mpCost: 25, multiplier: 3.4, desc: "雷の魔法攻撃 (消費MP25)" },
   { id: "skill_5", name: "ブリザード", type: "magic", requiredLevel: 10, mpCost: 30, multiplier: 3.6, desc: "氷の魔法攻撃 (消費MP30)" },
   { id: "skill_6", name: "黒・魔・導", type: "magic", requiredLevel: 15, mpCost: 50, multiplier: 4.0, desc: "ブラック・マジック！！ (消費MP50)" },
-  { id: "skill_7", name: "ハイヒール", type: "heal", requiredLevel: 16, mpCost: 50, healValue: 120, desc: "HPを中量回復 (消費MP50)" },
+  { id: "skill_7", name: "ハイヒール", type: "heal", requiredLevel: 16, mpCost: 50, healValue: 1000, desc: "HPを中量回復 (消費MP50)" },
   { id: "skill_8", name: "滅びの爆裂疾風弾", type: "magic", requiredLevel: 20, mpCost: 70, multiplier: 5.0, desc: "滅びのバーストストリーム！！ (消費MP70)" },
   { id: "skill_9", name: "メテオバースト", type: "magic", requiredLevel: 23, mpCost: 80, multiplier: 5.2, desc: "メテオバースト！ (消費MP80)" },
   { id: "skill_10", name: "ダークフレア", type: "magic", requiredLevel: 25, mpCost: 100, multiplier: 5.5, desc: "漆黒の炎に抱かれて消えろ！ (消費MP100)" },
-  { id: "skill_11", name: "神の祈り", type: "heal", requiredLevel: 30, mpCost: 100, healValue: 300, desc: "HPを多量回復 (消費MP100)" },
+  { id: "skill_11", name: "神の祈り", type: "heal", requiredLevel: 30, mpCost: 100, healValue: 2500, desc: "HPを多量回復 (消費MP100)" },
   { id: "skill_12", name: "スターバースト・ストリーム", type: "attack", requiredLevel: 35, mpCost: 250, multiplier: 5.8, desc: "16連撃の攻撃 (消費MP250)" },
   { id: "skill_13", name: "無限の剣製", type: "attack", requiredLevel: 40, mpCost: 300, multiplier: 6.0, desc: "アンリミテッド・ブレイドワークス (消費MP300)" },
   { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", type: "magic", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" }
