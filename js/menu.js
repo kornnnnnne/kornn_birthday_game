@@ -161,14 +161,14 @@ function unlockSpecialRewards(titleName) {
   }
 
   // 2. 「ストーリー1」と「ストーリー2」を強制解放（thxplay.html や prologue.html へ）
-  const story1Btn = document.getElementById('to-story1-btn');
+  const story1Btn = document.getElementById('to-story5-btn');
   if (story1Btn) {
     story1Btn.disabled = false;
     story1Btn.classList.add('unlocked');
     story1Btn.onclick = () => { window.location.href = 'thxplay.html'; }; // ご指定のhtml名
   }
 
-  const story2Btn = document.getElementById('to-story2-btn');
+  const story2Btn = document.getElementById('to-story4-btn');
   if (story2Btn) {
     story2Btn.disabled = false;
     story2Btn.classList.add('unlocked');
