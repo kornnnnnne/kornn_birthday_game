@@ -175,11 +175,6 @@ function unlockSpecialRewards(titleName) {
     story2Btn.onclick = () => { window.location.href = 'prologue.html'; }; // ご指定のhtml名
   }
 
-  // 3. 「製作者から」ボタンのイベント設定
-  const creatorBtn = document.getElementById('to-creator-message-btn');
-  if (creatorBtn) {
-    creatorBtn.onclick = () => { window.location.href = 'creator.html'; }; // 必要に応じてページ名を調整
-  }
 }
 
 // ログアウト処理
