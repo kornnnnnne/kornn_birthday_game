@@ -55,9 +55,9 @@ const monsterDatabase = {
     { name: "スケルトン", hp: 900, maxHp: 900, attack: 350, defense: 250, rewardCoins: 70, rewardExp: 800 }
   ],
   hard: [
-    { name: "ドラゴン", hp: 4000, maxHp: 4000, attack: 1000, defense: 400, rewardCoins: 100, rewardExp: 2000 },
-    { name: "ゴーレム", hp: 5000, maxHp: 5000, attack: 1200, defense: 420, rewardCoins: 130, rewardExp: 2000 },
-    { name: "ダークナイト", hp: 5000, maxHp: 5000, attack: 1500, defense: 500, rewardCoins: 160, rewardExp: 2500 }
+    { name: "ドラゴン", hp: 2500, maxHp: 2500, attack: 750, defense: 500, rewardCoins: 100, rewardExp: 2000 },
+    { name: "ゴーレム", hp: 2800, maxHp: 2800, attack: 600, defense: 500, rewardCoins: 130, rewardExp: 2000 },
+    { name: "ダークナイト", hp: 3000, maxHp: 3000, attack: 650, defense: 500, rewardCoins: 160, rewardExp: 2500 }
   ]
 };
 
