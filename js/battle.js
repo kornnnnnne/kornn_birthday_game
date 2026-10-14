@@ -44,20 +44,35 @@ const SKILL_DATABASE = [
 
 // モンスターデータベース
 const monsterDatabase = {
+  // 初級：Lv.1〜10 向け（サクサク倒してコインと経験値を稼げる）
   easy: [
     { name: "スライム", hp: 100, maxHp: 100, attack: 12, defense: 10, rewardCoins: 15, rewardExp: 80 },
     { name: "おばけキノコ", hp: 150, maxHp: 150, attack: 18, defense: 20, rewardCoins: 20, rewardExp: 100 },
-    { name: "コウモリ", hp: 200, maxHp: 200, attack: 20, defense: 20, rewardCoins: 25, rewardExp: 120 }
+    { name: "コウモリ", hp: 200, maxHp: 200, attack: 20, defense: 20, rewardCoins: 25, rewardExp: 120 },
+    { name: "ヤングコーン", hp: 250, maxHp: 250, attack: 25, defense: 25, rewardCoins: 30, rewardExp: 150 },
+    { name: "プチゴブリン", hp: 300, maxHp: 300, attack: 30, defense: 30, rewardCoins: 35, rewardExp: 180 },
+    { name: "野良犬", hp: 350, maxHp: 350, attack: 35, defense: 35, rewardCoins: 40, rewardExp: 220 },
+    { name: "どくスライム", hp: 400, maxHp: 400, attack: 40, defense: 40, rewardCoins: 45, rewardExp: 260 }
   ],
+  // 中級：Lv.11〜20 向け（歯ごたえが出てきて戦術が必要になる）
   normal: [
     { name: "ゴブリン", hp: 700, maxHp: 700, attack: 250, defense: 250, rewardCoins: 40, rewardExp: 500 },
     { name: "オーク", hp: 800, maxHp: 800, attack: 300, defense: 250, rewardCoins: 55, rewardExp: 650 },
-    { name: "スケルトン", hp: 900, maxHp: 900, attack: 350, defense: 250, rewardCoins: 70, rewardExp: 800 }
+    { name: "スケルトン", hp: 900, maxHp: 900, attack: 350, defense: 250, rewardCoins: 70, rewardExp: 800 },
+    { name: "コーンナイト", hp: 1050, maxHp: 1050, attack: 400, defense: 300, rewardCoins: 85, rewardExp: 950 },
+    { name: "リザードマン", hp: 1200, maxHp: 1200, attack: 450, defense: 350, rewardCoins: 100, rewardExp: 1100 },
+    { name: "ハイオーク", hp: 1350, maxHp: 1350, attack: 500, defense: 400, rewardCoins: 115, rewardExp: 1300 },
+    { name: "リビングアーマー", hp: 1500, maxHp: 1500, attack: 550, defense: 450, rewardCoins: 130, rewardExp: 1500 }
   ],
+  // 上級：Lv.21〜40 向け（強力なスキルやポーションを活用して挑む強敵）
   hard: [
     { name: "ドラゴン", hp: 2500, maxHp: 2500, attack: 750, defense: 500, rewardCoins: 100, rewardExp: 2000 },
     { name: "ゴーレム", hp: 2800, maxHp: 2800, attack: 600, defense: 500, rewardCoins: 130, rewardExp: 2000 },
-    { name: "ダークナイト", hp: 3000, maxHp: 3000, attack: 650, defense: 500, rewardCoins: 160, rewardExp: 2500 }
+    { name: "ダークナイト", hp: 3000, maxHp: 3000, attack: 650, defense: 500, rewardCoins: 160, rewardExp: 2500 },
+    { name: "キマイラ", hp: 3400, maxHp: 3400, attack: 720, defense: 550, rewardCoins: 190, rewardExp: 3000 },
+    { name: "キングコーン", hp: 3800, maxHp: 3800, attack: 780, defense: 600, rewardCoins: 220, rewardExp: 3500 },
+    { name: "アークデーモン", hp: 4200, maxHp: 4200, attack: 850, defense: 650, rewardCoins: 250, rewardExp: 4200 },
+    { name: "レッドドラゴン", hp: 4800, maxHp: 4800, attack: 920, defense: 700, rewardCoins: 300, rewardExp: 5000 }
   ]
 };
 
