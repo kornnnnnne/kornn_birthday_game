@@ -53,7 +53,7 @@ let playerStatus = {
 
 // ボスのステータス（固定）
 const boss = {
-  name: "こーん魔王",
+  name: "魔王こーん",
   maxHp: 20000,
   hp: 20000,
   attack: 800,
