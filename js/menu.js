@@ -150,6 +150,38 @@ function checkStoryUnlock(potionsStr) {
   });
 }
 
+// ★ 称号を持っている場合にストーリー1・2と製作者からを解放する関数
+function unlockSpecialRewards(titleName) {
+  // 1. 特別報酬エリア（称号＆製作者からボタン）を表示
+  const rewardSection = document.getElementById('special-reward-section');
+  const titleDisplay = document.getElementById('player-title-display');
+  if (rewardSection && titleDisplay) {
+    titleDisplay.textContent = `👑 称号: ${titleName}`;
+    rewardSection.style.display = 'block';
+  }
+
+  // 2. 「ストーリー1」と「ストーリー2」を強制解放（thxplay.html や prologue.html へ）
+  const story1Btn = document.getElementById('to-story1-btn');
+  if (story1Btn) {
+    story1Btn.disabled = false;
+    story1Btn.classList.add('unlocked');
+    story1Btn.onclick = () => { window.location.href = 'thxplay.html'; }; // ご指定のhtml名
+  }
+
+  const story2Btn = document.getElementById('to-story2-btn');
+  if (story2Btn) {
+    story2Btn.disabled = false;
+    story2Btn.classList.add('unlocked');
+    story2Btn.onclick = () => { window.location.href = 'prologue.html'; }; // ご指定のhtml名
+  }
+
+  // 3. 「製作者から」ボタンのイベント設定
+  const creatorBtn = document.getElementById('to-creator-message-btn');
+  if (creatorBtn) {
+    creatorBtn.onclick = () => { window.location.href = 'creator.html'; }; // 必要に応じてページ名を調整
+  }
+}
+
 // ログアウト処理
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('loggedInUser');
