@@ -472,6 +472,25 @@ function endBattle(isWin) {
 
   if (isWin) {
     addLog("見事な勝利だ！ メニューに戻って次の冒険に備えよう。");
+    // サーバに魔王討伐 & 称号付与をリクエスト
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        action: "setPlayerTitle",
+        name: loggedInUser,
+        title: "魔王討伐者"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        addLog("👑 称号「魔王討伐者」を手に入れた！");
+      }
+    })
+    .catch(err => {
+      console.error("称号付与エラー:", err);
+    });
   } else {
     addLog("修行を積んで、また挑み直そう！");
   }
