@@ -56,7 +56,7 @@ const boss = {
   name: "こーん魔王",
   maxHp: 20000,
   hp: 20000,
-  attack: 1000,
+  attack: 800,
   defense: 1000
 };
 
