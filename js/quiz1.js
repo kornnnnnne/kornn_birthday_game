@@ -91,7 +91,7 @@ const questionPool = [
   {
     question: "こーんの好きなVtuber？",
     choices: ["花芽すみれ", "望月ほぐの", "栞葉るり", "花芽なずな"],
-    answer: 1
+    answer: 0
   },
   {
     question: "こーんは目が悪い？",
@@ -131,7 +131,7 @@ const questionPool = [
   {
     question: "こーんが初めて行ったリアイベは？",
     choices: ["2周年感謝祭", "セカライ2nd", "セカライ3rd", "セカライ4th"],
-    answer: 2
+    answer: 1
   },
 ];
 
