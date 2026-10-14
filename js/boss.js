@@ -313,24 +313,52 @@ function useItem(itemName) {
     alert("アイテムが足りません！");
     return;
   }
+  if(itemName.includes("爆薬")){
+    playerStatus.inventoryPotions[itemName]--;
+    
+    let damage = 100;
+    damage += Math.floor(Math.random() * 6) - 3;
+    damage = Math.max(1, damage);
 
-  if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
-    alert("HPはすでに満タンです！");
-    return;
+    const randomdamage = Math.floor(Math.random() * 100);
+    if(randomdamage == 0){
+      damage = 9999999;
+    }
+  
+    boss.hp -= damage;
+    if(boss.hp <= 0){
+      boss.hp = 1;
+    }
+    updateDisplay();
+    addLog(`${itemName} を使った！ ${boss.name} に ${damage} 与えた！`);
+
   }
-
-  playerStatus.inventoryPotions[itemName]--;
-
-  if (itemName.includes("MPポーション")) {
-    const recoverMp = 200;
-    playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
-    addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
-  } else {
-    let healAmount = 500;
-    if (itemName.includes("中級")) healAmount = 1000;
-    if (itemName.includes("上級")) healAmount = 2500;
-    playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
-    addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+  else{ 
+    if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
+      alert("HPはすでに満タンです！");
+      return;
+    }
+  
+    playerStatus.inventoryPotions[itemName]--;
+  
+    if (itemName.includes("MPポーション")) {
+      const recoverMp = 200;
+      playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+      addLog(`💧 ${itemName} を使った！ MPが ${recoverMp} 回復した！`);
+    } else if(itemName.includes("コーン茶"))  {
+      let healAmount = 400;
+      const recoverMp = 200;
+      playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+      playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
+      addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！MPが ${recoverMp} 回復した！`);
+    }else {
+      let healAmount = 500;
+      if (itemName.includes("願いの雫")) healAmount = 10;
+      if (itemName.includes("中級")) healAmount = 1000;
+      if (itemName.includes("上級")) healAmount = 2500;
+      playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
+      addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！`);
+    }
   }
 
   updateDisplay();
