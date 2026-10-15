@@ -208,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.textContent = 'もう一度挑戦する';
     startBtn.style.display = 'block';
 
+    score = score*20;
+
     // サーバーへスコアとクイズゲームの種別を送信してコインを獲得する
     fetch(GAS_URL, {
       method: 'POST',
