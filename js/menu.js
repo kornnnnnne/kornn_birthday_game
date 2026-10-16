@@ -126,47 +126,55 @@ function checkStoryUnlock(potionsStr) {
     const itemName = parts[0].trim();
     const count = parseInt(parts[1]) || 0;
 
-    if (count > 0) {
+   if (count > 0) {
       if (itemName === "ストーリー1") {
         const btn = document.getElementById('to-story1-btn');
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
-          playSE('button.mp3');
-          btn.onclick = () => { window.location.href = 'story1.html'; };
+          // クリックされたときに音を鳴らす
+          btn.onclick = () => {
+            playSE('button.mp3');
+            setTimeout(() => { window.location.href = 'story1.html'; }, 150);
+          };
         }
       } else if (itemName === "ストーリー2") {
         const btn = document.getElementById('to-story2-btn');
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
-          playSE('button.mp3');
-          btn.onclick = () => { window.location.href = 'story2.html'; };
+          btn.onclick = () => {
+            playSE('button.mp3');
+            setTimeout(() => { window.location.href = 'story2.html'; }, 150);
+          };
         }
       } else if (itemName === "ストーリー3") {
         const btn = document.getElementById('to-story3-btn');
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
-          playSE('button.mp3');
-          btn.onclick = () => { window.location.href = 'story3.html'; };
+          btn.onclick = () => {
+            playSE('button.mp3');
+            setTimeout(() => { window.location.href = 'story3.html'; }, 150);
+          };
         }
       } else if (itemName === "ストーリー4") {
         const btn = document.getElementById('to-story4-btn');
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
-          playSE('button.mp3');
-          btn.onclick = () => { window.location.href = 'story4.html'; };
+          btn.onclick = () => {
+            playSE('button.mp3');
+            setTimeout(() => { window.location.href = 'story4.html'; }, 150);
+          };
         }
       }
     }
   });
 }
 
-// ★ 称号を持っている場合にストーリー1・2と製作者からを解放する関数
+// ★ 称号を持っている場合に解放する関数
 function unlockSpecialRewards(titleName) {
-  // 1. 特別報酬エリア（称号＆製作者からボタン）を表示
   const rewardSection = document.getElementById('special-reward-section');
   const titleDisplay = document.getElementById('player-title-display');
   if (rewardSection && titleDisplay) {
@@ -174,23 +182,26 @@ function unlockSpecialRewards(titleName) {
     rewardSection.style.display = 'block';
   }
 
-  // 2. 「ストーリー1」と「ストーリー2」を強制解放（thxplay.html や prologue.html へ）
   const story1Btn = document.getElementById('to-story6-btn');
   if (story1Btn) {
     story1Btn.disabled = false;
     story1Btn.classList.add('unlocked');
-    playSE('button.mp3');
-    story1Btn.onclick = () => { window.location.href = 'thxplay.html'; }; // ご指定のhtml名
+    // クリックされたときに音を鳴らす
+    story1Btn.onclick = () => {
+      playSE('button.mp3');
+      setTimeout(() => { window.location.href = 'thxplay.html'; }, 150);
+    };
   }
 
   const story2Btn = document.getElementById('to-story5-btn');
   if (story2Btn) {
     story2Btn.disabled = false;
     story2Btn.classList.add('unlocked');
-    playSE('button.mp3');
-    story2Btn.onclick = () => { window.location.href = 'prologue.html'; }; // ご指定のhtml名
+    story2Btn.onclick = () => {
+      playSE('button.mp3');
+      setTimeout(() => { window.location.href = 'prologue.html'; }, 150);
+    };
   }
-
 }
 
 // ログアウト処理
