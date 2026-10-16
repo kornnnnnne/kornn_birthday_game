@@ -37,7 +37,7 @@ const SKILL_DATABASE = [
   { id: "skill_14", name: "誕生の時きたれり、其は全てを修めるもの", type: "magic", requiredLevel: 50, mpCost: 500, multiplier: 10.0, desc: "アルス・アルマデル・サロモニス (消費MP500)" }
 ];
 
-// プレイヤーのステータス保持用（レベルを追加）
+// プレイヤーのステータス保持用
 let playerStatus = {
   level: 1,
   maxHp: 100,
@@ -106,7 +106,7 @@ function fetchPlayerData() {
       const s = data.statusData;
       const inv = data.inventoryData;
 
-      let baseLevel = Number(s.level) || 1; // ★ レベルの反映
+      let baseLevel = Number(s.level) || 1;
       let baseAttack = Number(s.attack) || 20;
       let baseMagicAttack = Number(s.magicAttack) || 15;
       let baseDefense = Number(s.defense) || 10;
@@ -163,8 +163,6 @@ function parsePotionInventory(potionsStr) {
   return result;
 }
 
-fetchPlayerData();
-
 // プレイヤーの攻撃ターン
 function playerAttack() {
   setButtonsEnabled(false);
@@ -174,7 +172,7 @@ function playerAttack() {
   damage = Math.max(1, damage);
 
   boss.hp -= damage;
-  playSE('sword.mp3');
+  if (typeof playSE === 'function') playSE('sword.mp3');
   updateDisplay();
   addLog(`あなたの攻撃！ ${boss.name} に ${damage} のダメージを与えた！`);
 
@@ -187,15 +185,12 @@ function playerAttack() {
   setTimeout(bossTurn, 1200);
 }
 
-// ==========================
-// スキル関連の処理（レベル制限・非表示対応）
-// ==========================
+// スキル選択・実行処理
 function showSkillSelect() {
   const container = document.getElementById('skill-buttons-container');
   if (!container) return;
   container.innerHTML = "";
 
-  // レベルを満たしているスキルだけに絞り込む（使えない技は見えない）
   const unlockedSkills = SKILL_DATABASE.filter(skill => playerStatus.level >= skill.requiredLevel);
 
   if (unlockedSkills.length === 0) {
@@ -247,17 +242,15 @@ function useSkill(skill) {
   setButtonsEnabled(false);
   hideSkillSelect();
 
-  // ★ 回復系スキルの処理
   if (skill.type === "heal") {
     playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
     updateDisplay();
     addLog(`✨ スキル発動【${skill.name}】！ HPが ${skill.healValue} 回復した！`);
-    playSE('heal.mp3');
+    if (typeof playSE === 'function') playSE('heal.mp3');
     setTimeout(bossTurn, 1200);
     return;
   }
 
-  // ★ 攻撃・魔法系スキルの処理
   let baseDmg = playerStatus.attack * skill.multiplier;
   let damage = Math.max(1, Math.floor(baseDmg - Math.floor(boss.defense / 2)));
   damage += Math.floor(Math.random() * 6) - 3;
@@ -276,9 +269,7 @@ function useSkill(skill) {
   setTimeout(bossTurn, 1200);
 }
 
-// ==========================
-// アイテム選択画面を開く
-// ==========================
+// アイテム選択・実行処理
 function showItemSelect() {
   const itemNames = Object.keys(playerStatus.inventoryPotions);
   const availableItems = itemNames.filter(name => playerStatus.inventoryPotions[name] > 0);
@@ -333,9 +324,7 @@ function useItem(itemName) {
     }
     updateDisplay();
     addLog(`${itemName} を使った！ ${boss.name} に ${damage} 与えた！`);
-
-  }
-  else{ 
+  } else { 
     if (playerStatus.hp >= playerStatus.maxHp && !itemName.includes("MP")) {
       alert("HPはすでに満タンです！");
       return;
@@ -353,7 +342,7 @@ function useItem(itemName) {
       playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + healAmount);
       playerStatus.mp = Math.min(playerStatus.maxMp, playerStatus.mp + recoverMp);
       addLog(`🧪 ${itemName} を使った！ HPが ${healAmount} 回復した！MPが ${recoverMp} 回復した！`);
-    }else {
+    } else {
       let healAmount = 500;
       if (itemName.includes("願いの雫")) healAmount = 10;
       if (itemName.includes("中級")) healAmount = 1000;
@@ -381,7 +370,6 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`⚠️ ${boss.name} の攻撃！ あなたは ${damage} のダメージを受けた！`);
-
   } else if (randomVal < 4) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
@@ -390,8 +378,7 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} はラーの翼神竜を召喚！ゴッドブレイズキャノン！ ${damage} のダメージを受けた！`);
-
-  }else if (randomVal < 5) {
+  } else if (randomVal < 5) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.5) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
@@ -399,8 +386,7 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} はオシリスの天空龍を召喚！サンダーフォース！ ${damage} のダメージを受けた！`);
-
-  }else if (randomVal < 6) {
+  } else if (randomVal < 6) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
@@ -408,8 +394,7 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} はオベリスクの巨神兵を召喚！ゴッドハンドクラッシャー！ ${damage} のダメージを受けた！`);
-
-  }else if (randomVal < 7) {
+  } else if (randomVal < 7) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.3) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
@@ -417,8 +402,7 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} のヘルブリザード！ ${damage} のダメージを受けた！`);
-
-  }else if (randomVal < 8) {
+  } else if (randomVal < 8) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.1) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
@@ -426,8 +410,7 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} のリーフストーム！ ${damage} のダメージを受けた！`);
-
-  }else if (randomVal < 9) {
+  } else if (randomVal < 9) {
     let damage = Math.max(1, Math.floor(boss.attack * 1.6) - Math.floor(playerStatus.defense / 2));
     damage += Math.floor(Math.random() * 6) - 3;
     damage = Math.max(1, damage);
@@ -435,7 +418,6 @@ function bossTurn() {
     playerStatus.hp -= damage;
     updateDisplay();
     addLog(`🔥 ${boss.name} のクリムゾンフレア！ ${damage} のダメージを受けた！`);
-
   } else {
     let heal = 4000;
     boss.hp = Math.min(boss.maxHp, boss.hp + heal);
@@ -465,6 +447,7 @@ function setButtonsEnabled(enabled) {
 
 // バトル終了処理
 function endBattle(isWin) {
+  stopBossBgm(); // ★ 戦闘終了時にBGMを停止
   setButtonsEnabled(false);
   document.getElementById('command-box').style.display = 'none';
   document.getElementById('skill-command-box').style.display = 'none';
@@ -474,7 +457,6 @@ function endBattle(isWin) {
 
   if (isWin) {
     addLog("見事な勝利だ！ メニューに戻って次の冒険に備えよう。");
-    // サーバに魔王討伐 & 称号付与をリクエスト
     fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
@@ -498,8 +480,14 @@ function endBattle(isWin) {
   }
 }
 
-// イベントリスナーの割り当て
+// ==========================
+// 初期化 & イベント登録
+// ==========================
 document.addEventListener('DOMContentLoaded', () => {
+  // ステータス取得を実行
+  fetchPlayerData();
+
+  // ボタンイベント登録
   const attackBtn = document.getElementById('attack-btn');
   const skillToggleBtn = document.getElementById('skill-select-toggle-btn');
   const itemToggleBtn = document.getElementById('item-select-toggle-btn');
@@ -513,33 +501,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (backToMainBtn) backToMainBtn.addEventListener('click', hideItemSelect);
 });
 
-
 // ==========================
-// ボス戦BGMプレイヤー設定（確実再生版）
+// ボス戦BGM設定
 // ==========================
 const bossBgm = new Audio('boss01.mp3'); 
 bossBgm.loop = true;  
 bossBgm.volume = 0.3; 
 
-// ページが完全に読み込まれた後に再生を試みる
-window.addEventListener('load', () => {
+// ページ読み込み完了時に再生を試みる
+window.addEventListener('DOMContentLoaded', () => {
   bossBgm.play().catch(err => {
     console.log("自動再生がブロックされました。画面をクリックすると再生されます。");
   });
 });
 
-// 画面のどこかを初めてクリックしたときに必ず再生する
+// ブラウザの自動再生ブロック対策（画面のどこかをクリックしたら再生）
 document.addEventListener('click', () => {
   if (bossBgm.paused) {
-    bossBgm.play().then(() => {
-      console.log("BGMの再生に成功しました！");
-    }).catch(e => {
-      console.log("再生失敗:", e);
-    });
+    bossBgm.play();
   }
 }, { once: true });
 
-// ★ ボス戦終了時（勝利・敗北）にBGMを止める関数
 function stopBossBgm() {
   bossBgm.pause();
   bossBgm.currentTime = 0; 
