@@ -55,20 +55,18 @@ class SimpleBGM {
   }
 }
 
-// グローバルにインスタンスを作成
+// js/bgm.js の最後の部分を以下のように書き換える
 const bgmPlayer = new SimpleBGM();
 
-// 画面のどこかをクリックしたときに自動でBGMをONにする（ブラウザの制限対策）
-document.addEventListener('click', () => {
-  if (!bgmPlayer.isPlaying) {
-    // ページの種類やファイル名に合わせてBGMの種類を変えられます
-    const path = window.location.pathname;
-    if (path.includes('battle.html')) {
-      bgmPlayer.startPikopiko(180); // 戦闘中は少しテンポ早め
-    } else if (path.includes('boss.html')) {
-      bgmPlayer.startPikopiko(120); // ボス戦は重厚・スリリングに
-    } else {
-      bgmPlayer.startPikopiko(350); // メニューなどはのんびり
-    }
+// ページが読み込まれたら自動で再生を試みる
+window.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname;
+  
+  // ブラウザの制限を回避するため、最初はミュートやAudioContextの初期化が必要な場合がありますが
+  // ユーザーが一度でも別ページから遷移してきていれば鳴ることもあります
+  if (path.includes('battle.html')) {
+    bgmPlayer.startPikopiko(180);
+  } else {
+    bgmPlayer.startPikopiko(350);
   }
-}, { once: true });
+});
