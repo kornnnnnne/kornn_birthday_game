@@ -243,7 +243,7 @@ function playerAttack() {
   let damage = Math.max(1, playerStatus.attack - Math.floor(currentEnemy.defense / 2));
   damage += Math.floor(Math.random() * 5) - 2;
   damage = Math.max(1, damage);
-
+　playSE('sword.mp3');
   currentEnemy.hp -= damage;
   updateDisplay();
   addLog(`あなたの攻撃！ ${currentEnemy.name} に ${damage} のダメージを与えた！`);
@@ -318,6 +318,7 @@ function useSkill(skill) {
   if (skill.type === "heal") {
     playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
     updateDisplay();
+    playSE('heal.mp3');
     addLog(`✨ スキル発動【${skill.name}】！ HPが ${skill.healValue} 回復した！`);
     setTimeout(enemyTurn, 1000);
     return;
