@@ -172,7 +172,7 @@ function playerAttack() {
   damage = Math.max(1, damage);
 
   boss.hp -= damage;
-  if (typeof playSE === 'function') playSE('sword.mp3');
+  playSE('sword.mp3');
   updateDisplay();
   addLog(`あなたの攻撃！ ${boss.name} に ${damage} のダメージを与えた！`);
 
@@ -246,7 +246,7 @@ function useSkill(skill) {
     playerStatus.hp = Math.min(playerStatus.maxHp, playerStatus.hp + skill.healValue);
     updateDisplay();
     addLog(`✨ スキル発動【${skill.name}】！ HPが ${skill.healValue} 回復した！`);
-    if (typeof playSE === 'function') playSE('heal.mp3');
+    playSE('heal.mp3');
     setTimeout(bossTurn, 1200);
     return;
   }
