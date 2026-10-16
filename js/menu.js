@@ -67,42 +67,52 @@ document.getElementById('player-display').textContent = loggedInUser;
 // ボタンイベント設定
 document.getElementById('to-game-btn').addEventListener('click', () => {
   window.location.href = 'game1.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-quiz1-btn').addEventListener('click', () => {
   window.location.href = 'quiz1.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-quiz2-btn').addEventListener('click', () => {
   window.location.href = 'quiz2.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-KanjiQuiz-btn').addEventListener('click', () => {
   window.location.href = 'KanjiQuiz.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-Rapid-btn').addEventListener('click', () => {
   window.location.href = 'Rapid.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-slot-btn').addEventListener('click', () => {
   window.location.href = 'slot.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-shop-btn').addEventListener('click', () => {
   window.location.href = 'shop.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-status-btn').addEventListener('click', () => {
   window.location.href = 'status.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-battle-btn').addEventListener('click', () => {
   window.location.href = 'battle.html';
+  playSE('button.mp3');
 });
 
 document.getElementById('to-boss-btn').addEventListener('click', () => {
   window.location.href = 'boss.html';
+  playSE('button.mp3');
 });
 
 // ストーリーアイテムを所持しているかチェックしてボタンを開放する関数
@@ -122,6 +132,7 @@ function checkStoryUnlock(potionsStr) {
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
+          playSE('button.mp3');
           btn.onclick = () => { window.location.href = 'story1.html'; };
         }
       } else if (itemName === "ストーリー2") {
@@ -129,6 +140,7 @@ function checkStoryUnlock(potionsStr) {
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
+          playSE('button.mp3');
           btn.onclick = () => { window.location.href = 'story2.html'; };
         }
       } else if (itemName === "ストーリー3") {
@@ -136,6 +148,7 @@ function checkStoryUnlock(potionsStr) {
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
+          playSE('button.mp3');
           btn.onclick = () => { window.location.href = 'story3.html'; };
         }
       } else if (itemName === "ストーリー4") {
@@ -143,6 +156,7 @@ function checkStoryUnlock(potionsStr) {
         if (btn) {
           btn.disabled = false;
           btn.classList.add('unlocked');
+          playSE('button.mp3');
           btn.onclick = () => { window.location.href = 'story4.html'; };
         }
       }
@@ -165,6 +179,7 @@ function unlockSpecialRewards(titleName) {
   if (story1Btn) {
     story1Btn.disabled = false;
     story1Btn.classList.add('unlocked');
+    playSE('button.mp3');
     story1Btn.onclick = () => { window.location.href = 'thxplay.html'; }; // ご指定のhtml名
   }
 
@@ -172,6 +187,7 @@ function unlockSpecialRewards(titleName) {
   if (story2Btn) {
     story2Btn.disabled = false;
     story2Btn.classList.add('unlocked');
+    playSE('button.mp3');
     story2Btn.onclick = () => { window.location.href = 'prologue.html'; }; // ご指定のhtml名
   }
 
