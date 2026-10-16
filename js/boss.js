@@ -368,6 +368,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('sword.mp3')
     updateDisplay();
     addLog(`⚠️ ${boss.name} の攻撃！ あなたは ${damage} のダメージを受けた！`);
   } else if (randomVal < 4) {
@@ -376,6 +377,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('bless.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} はラーの翼神竜を召喚！ゴッドブレイズキャノン！ ${damage} のダメージを受けた！`);
   } else if (randomVal < 5) {
@@ -384,6 +386,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('sanzdar.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} はオシリスの天空龍を召喚！サンダーフォース！ ${damage} のダメージを受けた！`);
   } else if (randomVal < 6) {
@@ -392,6 +395,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('panchi.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} はオベリスクの巨神兵を召喚！ゴッドハンドクラッシャー！ ${damage} のダメージを受けた！`);
   } else if (randomVal < 7) {
@@ -400,6 +404,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('ice.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} のヘルブリザード！ ${damage} のダメージを受けた！`);
   } else if (randomVal < 8) {
@@ -408,6 +413,7 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('sword.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} のリーフストーム！ ${damage} のダメージを受けた！`);
   } else if (randomVal < 9) {
@@ -416,11 +422,13 @@ function bossTurn() {
     damage = Math.max(1, damage);
 
     playerStatus.hp -= damage;
+    playSE('frame.mp3')
     updateDisplay();
     addLog(`🔥 ${boss.name} のクリムゾンフレア！ ${damage} のダメージを受けた！`);
   } else {
     let heal = 4000;
     boss.hp = Math.min(boss.maxHp, boss.hp + heal);
+    playSE('heal.mp3')
     updateDisplay();
     addLog(`✨ ${boss.name} はこーんをたべて、HPを ${heal} 回復した！`);
   }
