@@ -517,16 +517,11 @@ const bossBgm = new Audio('audio/boss01.mp3'); // audioフォルダ内のmp3を�
 bossBgm.loop = true;  // ループ有効
 bossBgm.volume = 0.3; // 音量調整（0.0〜1.0）
 
-// 画面が読み込まれたとき、またはユーザーが最初にクリックしたときに再生を開始
-function startBossBgm() {
+// ページ読み込み時に再生を試みる
+window.addEventListener('DOMContentLoaded', () => {
   bossBgm.play().catch(err => {
     console.log("自動再生がブロックされました。画面をクリックすると再生されます。");
   });
-}
-
-// ページ読み込み時に再生を試みる
-window.addEventListener('DOMContentLoaded', () => {
-  startBossBgm();
 });
 
 // 万が一ブロックされた場合の保険（画面をクリックしたら確実に鳴るようにする）
