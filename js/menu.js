@@ -64,55 +64,56 @@ fetchPlayerMenuData();
 // プレイヤー名表示
 document.getElementById('player-display').textContent = loggedInUser;
 
-// ボタンイベント設定
 document.getElementById('to-game-btn').addEventListener('click', () => {
-  window.location.href = 'game1.html';
   playSE('button.mp3');
+  setTimeout(() => {
+    window.location.href = 'game1.html';
+  }, 150); // 0.15秒後に移動（音が途切れません）
 });
 
 document.getElementById('to-quiz1-btn').addEventListener('click', () => {
-  window.location.href = 'quiz1.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'quiz1.html'; }, 150);
 });
 
 document.getElementById('to-quiz2-btn').addEventListener('click', () => {
-  window.location.href = 'quiz2.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'quiz2.html'; }, 150);
 });
 
 document.getElementById('to-KanjiQuiz-btn').addEventListener('click', () => {
-  window.location.href = 'KanjiQuiz.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'KanjiQuiz.html'; }, 150);
 });
 
 document.getElementById('to-Rapid-btn').addEventListener('click', () => {
-  window.location.href = 'Rapid.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'Rapid.html'; }, 150);
 });
 
 document.getElementById('to-slot-btn').addEventListener('click', () => {
-  window.location.href = 'slot.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'slot.html'; }, 150);
 });
 
 document.getElementById('to-shop-btn').addEventListener('click', () => {
-  window.location.href = 'shop.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'shop.html'; }, 150);
 });
 
 document.getElementById('to-status-btn').addEventListener('click', () => {
-  window.location.href = 'status.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'status.html'; }, 150);
 });
 
 document.getElementById('to-battle-btn').addEventListener('click', () => {
-  window.location.href = 'battle.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'battle.html'; }, 150);
 });
 
 document.getElementById('to-boss-btn').addEventListener('click', () => {
-  window.location.href = 'boss.html';
   playSE('button.mp3');
+  setTimeout(() => { window.location.href = 'boss.html'; }, 150);
 });
 
 // ストーリーアイテムを所持しているかチェックしてボタンを開放する関数
