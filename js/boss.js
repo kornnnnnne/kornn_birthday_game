@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================
 // ボス戦BGMプレイヤー設定（確実再生版）
 // ==========================
-const bossBgm = new Audio('audio/boss01.mp3'); 
+const bossBgm = new Audio('boss01.mp3'); 
 bossBgm.loop = true;  
 bossBgm.volume = 0.3; 
 
