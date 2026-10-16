@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ボス戦専用のBGMをループ再生するプレイヤー
-const bossBgm = new Audio('audio/boss01.mp3'); // audioフォルダ内のmp3を指定
+const bossBgm = new Audio('../audio/boss01.mp3'); // audioフォルダ内のmp3を指定
 bossBgm.loop = true;  // ループ有効
 bossBgm.volume = 0.3; // 音量調整（0.0〜1.0）
 
