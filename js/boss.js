@@ -514,27 +514,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ボス戦専用のBGMをループ再生するプレイヤー
-const bossBgm = new Audio('../audio/boss01.mp3'); // audioフォルダ内のmp3を指定
-bossBgm.loop = true;  // ループ有効
-bossBgm.volume = 0.3; // 音量調整（0.0〜1.0）
+// ==========================
+// ボス戦BGMプレイヤー設定（確実再生版）
+// ==========================
+const bossBgm = new Audio('audio/boss01.mp3'); 
+bossBgm.loop = true;  
+bossBgm.volume = 0.3; 
 
-// ページ読み込み時に再生を試みる
-window.addEventListener('DOMContentLoaded', () => {
+// ページが完全に読み込まれた後に再生を試みる
+window.addEventListener('load', () => {
   bossBgm.play().catch(err => {
     console.log("自動再生がブロックされました。画面をクリックすると再生されます。");
   });
 });
 
-// 万が一ブロックされた場合の保険（画面をクリックしたら確実に鳴るようにする）
+// 画面のどこかを初めてクリックしたときに必ず再生する
 document.addEventListener('click', () => {
   if (bossBgm.paused) {
-    bossBgm.play();
+    bossBgm.play().then(() => {
+      console.log("BGMの再生に成功しました！");
+    }).catch(e => {
+      console.log("再生失敗:", e);
+    });
   }
 }, { once: true });
 
-// ★ ボス戦終了時（勝利・敗北）にBGMを止めたい場合
+// ★ ボス戦終了時（勝利・敗北）にBGMを止める関数
 function stopBossBgm() {
   bossBgm.pause();
-  bossBgm.currentTime = 0; // 曲を最初に戻す
+  bossBgm.currentTime = 0; 
 }
