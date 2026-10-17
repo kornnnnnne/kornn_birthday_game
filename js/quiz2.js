@@ -36,7 +36,7 @@ const questionPool = [
   {
     question: "ユニットメモリアの変換時間は？",
     choices: ["5分", "10分", "30分", "60分"],
-    answer: 2
+    answer: 1
   },
   {
     question: "奏の身長は？",
